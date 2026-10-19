@@ -39,13 +39,13 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
   Learner check: Open the Vercel link on your phone, upload a field photo, and confirm the circles appear.
   Commit: `Configure Vercel deployment`
 
-- [ ] **4. Count a slide field by field with WHO guidance (the kernel)**
+- [x] **4. Count a slide field by field with WHO guidance (the kernel)**
   Becomes usable: Confirm or discard each field; totals and the WBC progress bar climb; guidance says "Capture another field", "Keep counting up to 500 WBC" or "Enough counted"; confirmed-field thumbnails; New slide with confirmation.
   Why now: This is `scope.md > The Unique Kernel`; it must exist before polish.
   PRD ref: `prd.md > Running count and guidance (the kernel)`, `prd.md > States and Boundaries`
   Spec ref: `spec.md > WHO protocol (public/protocol.js)`, `spec.md > Counting page (public/app.js)`, `spec.md > Data Model`
   Build: `protocol.js` (addField, guidance, density) with `tests/protocol.test.mjs`; wire Confirm/Discard, totals, progress target 200→500, guidance text, thumbnails strip, New slide confirmation.
-  Verify (mechanical): `node --test tests/` passes for <200, ≥200 & ≥100 parasites, ≥200 & <100 (target 500), ≥500, zero WBC; in the browser, confirm several fields and watch totals and guidance change.
+  Verify (mechanical): `node --test tests/protocol.test.mjs` passes for <200, ≥200 & ≥100 parasites, ≥200 & <100 (target 500), ≥500, zero WBC; in the browser, confirm several fields and watch totals and guidance change.
   Learner check: Upload and confirm fields one after another; tell me whether the counter and the "what to do next" message feel right for a technician.
   Commit: `Add WHO field-by-field counting and guidance`
 
@@ -103,3 +103,4 @@ Activity mode:
 ## Revisions
 - Dataset layout differs from the spec's guess — images are `<patient>/<name>.jpg` and annotations `GT_updated/<patient>/<name>.txt` (parasites = circles, WBCs = single points); the photos carry an EXIF rotation while expert coordinates use the raw landscape pixel grid, so tools load images ignoring EXIF orientation. Remote-zip range reads worked, no full download needed. 10 patients fetched; 9 have ≥ 200 WBC across their fields, so sample mode can reach the WHO threshold.
 - API moved from `api/index.py` to root `app.py` (+ `vercel.json`, `.python-version`) — Vercel's FastAPI support detects `app.py`/`index.py` entrypoints and treats an `api/` folder as legacy per-file functions; it also asks not to mount `public/` in the app, so the static mount now runs only outside Vercel.
+- Slice 4 built before slice 3 was verified — slice 3's config is committed and pushed, but its live check waits for the learner to create the Vercel project; building continued rather than idling.

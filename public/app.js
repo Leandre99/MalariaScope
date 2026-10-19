@@ -186,11 +186,87 @@
     $("fields-total").textContent = s.fields.length;
     $("guidance").textContent = g.message;
     $("guidance").classList.toggle("done", g.canFinish);
+    $("result-btn").hidden = !g.canFinish;
+  }
+
+  // ---------- confirm / discard (WHO running count) ----------
+  function fieldCounts(f) {
+    var counted = !f.flagged || f.accepted;
+    return { wbc: counted ? f.wbc.length : 0, parasites: counted ? f.parasites.length : 0, counted: counted };
+  }
+
+  $("confirm-btn").addEventListener("click", function () {
+    var f = state.current;
+    if (!f) return;
+    var c = fieldCounts(f);
+    var thumb = document.createElement("canvas");
+    thumb.width = 208; thumb.height = Math.round(208 * f.height / f.width);
+    thumb.getContext("2d").drawImage(canvas, 0, 0, thumb.width, thumb.height);
+    var field = {
+      id: state.session.fields.length + 1,
+      thumbnailUrl: thumb.toDataURL("image/jpeg", 0.7),
+      wbcCount: c.wbc,
+      parasiteCount: c.parasites,
+      flagged: f.flagged,
+      note: f.flagged ? (c.counted ? "Flagged, used anyway" : "Flagged, not counted") : "",
+    };
+    state.session = Protocol.addField(state.session, field);
+    addThumb(field);
+    state.current = null;
+    renderField();
+    renderTotals();
+  });
+
+  $("discard-btn").addEventListener("click", function () {
+    state.current = null;
+    showError("");
+    renderField();
+  });
+
+  function addThumb(field) {
+    var el = document.createElement("div");
+    el.className = "thumb";
+    el.innerHTML = '<img alt=""><span></span>';
+    el.querySelector("img").src = field.thumbnailUrl;
+    el.querySelector("img").alt = "Field " + field.id;
+    el.querySelector("span").textContent = "#" + field.id + " · " + field.wbcCount + " WBC · " + field.parasiteCount + " P";
+    $("thumbs").appendChild(el);
   }
 
   // ---------- navigation ----------
+  function askConfirm(text) {
+    var dlg = $("confirm-dialog");
+    $("confirm-text").textContent = text;
+    return new Promise(function (resolve) {
+      dlg.addEventListener("close", function onClose() {
+        dlg.removeEventListener("close", onClose);
+        resolve(dlg.returnValue === "ok");
+      });
+      dlg.showModal();
+    });
+  }
+
+  function unfinished() {
+    var s = state.session;
+    return !!(s && (s.fields.length || state.current));
+  }
+
+  function newSlide() {
+    var go = unfinished() && !state.reviewed
+      ? askConfirm("Start a new slide? The current count (" + state.session.fields.length + " fields) will be cleared.")
+      : Promise.resolve(true);
+    go.then(function (ok) {
+      if (!ok) return;
+      state.session = null;
+      state.current = null;
+      $("slide-ref").value = "";
+      $("start-btn").disabled = true;
+      show("start");
+    });
+  }
+
   $("brand").addEventListener("click", function () { show(state.session ? "counting" : "start"); });
-  $("new-slide-btn").addEventListener("click", function () { show("start"); });
+  $("new-slide-btn").addEventListener("click", newSlide);
 
   window.MalariaScope = { state: state, show: show };
   show("start");
