@@ -49,7 +49,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
   Learner check: Upload and confirm fields one after another; tell me whether the counter and the "what to do next" message feel right for a technician.
   Commit: `Add WHO field-by-field counting and guidance`
 
-- [ ] **5. Fix the machine's mistakes and catch bad photos**
+- [x] **5. Fix the machine's mistakes and catch bad photos**
   Becomes usable: Click a circle to remove it; Add parasite / Add WBC tools to add missed ones; blurred or cell-less photos are flagged with Retake / Use anyway and not counted unless overridden.
   Why now: Human correction is what makes the count trustworthy; the quality check needs the focus score from the engine already in place.
   PRD ref: `prd.md > Correcting marks`, `prd.md > Image quality check`

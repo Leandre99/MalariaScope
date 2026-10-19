@@ -117,11 +117,48 @@
             wbc: body.wbc, parasites: body.parasites, quality: body.quality,
             flagged: flagged, accepted: !flagged,
           };
+          state.tool = "add-par";
+          setTool("add-par"); // toggles back to the default "remove" tool
           renderField();
         });
       });
     });
   }
+
+  // ---------- sample slide (real NLM fields, real analyser) ----------
+  function loadManifest() {
+    if (state.samples) return Promise.resolve(state.samples);
+    return fetch("samples/manifest.json").then(function (r) {
+      if (!r.ok) throw new Error("no_samples");
+      return r.json();
+    }).then(function (m) { state.samples = m; return m; });
+  }
+
+  function nextSample() {
+    showError("");
+    setBusy(true);
+    loadManifest()
+      .then(function (m) {
+        if (state.sampleIndex >= m.fields.length) throw new Error("samples_done");
+        var file = m.fields[state.sampleIndex++];
+        return fetch("samples/" + file).then(function (r) { return r.blob(); });
+      })
+      .then(loadAndResize)
+      .then(analyse)
+      .catch(function (err) {
+        showError(err.message === "samples_done"
+          ? "That was the last sample field."
+          : "Couldn't load the sample field — try again.");
+      })
+      .then(function () { setBusy(false); });
+  }
+
+  $("next-sample-btn").addEventListener("click", nextSample);
+  $("sample-btn").addEventListener("click", function () {
+    loadManifest().then(function (m) {
+      startSession(m.reference, true);
+    }).catch(function () { alert("Sample slide unavailable."); });
+  });
 
   function setBusy(on) {
     $("busy").hidden = !on;
@@ -175,6 +212,13 @@
     } else {
       badge.textContent = "Good photo"; badge.className = "badge";
     }
+    var blocked = f.flagged && !f.accepted;
+    $("flag").hidden = !blocked;
+    $("flag-text").textContent = f.quality.reason === "blur"
+      ? "Out of focus — please refocus and retake. Nothing from this photo is counted."
+      : "No cells found — is this a thick smear field? Nothing from this photo is counted.";
+    $("tools").hidden = blocked;
+    canvas.style.cursor = blocked ? "default" : state.tool === "remove" ? "pointer" : "crosshair";
   }
 
   function renderTotals() {
@@ -188,6 +232,53 @@
     $("guidance").classList.toggle("done", g.canFinish);
     $("result-btn").hidden = !g.canFinish;
   }
+
+  // ---------- correcting marks ----------
+  function setTool(tool) {
+    state.tool = state.tool === tool ? "remove" : tool;
+    $("tool-par").setAttribute("aria-pressed", state.tool === "add-par");
+    $("tool-wbc").setAttribute("aria-pressed", state.tool === "add-wbc");
+  }
+  $("tool-par").addEventListener("click", function () { setTool("add-par"); });
+  $("tool-wbc").addEventListener("click", function () { setTool("add-wbc"); });
+
+  canvas.addEventListener("click", function (e) {
+    var f = state.current;
+    if (!f || (f.flagged && !f.accepted)) return;
+    // Screen pixels -> image pixels (the canvas is scaled by CSS).
+    var rect = canvas.getBoundingClientRect();
+    var x = (e.clientX - rect.left) * (f.width / rect.width);
+    var y = (e.clientY - rect.top) * (f.height / rect.height);
+    if (state.tool === "add-par") {
+      f.parasites.push({ x: x, y: y, r: 9, manual: true });
+    } else if (state.tool === "add-wbc") {
+      f.wbc.push({ x: x, y: y, r: 20, manual: true });
+    } else {
+      removeNearest(f, x, y, 12 * (f.width / rect.width));
+    }
+    renderField();
+  });
+
+  function removeNearest(f, x, y, tolerance) {
+    var best = null;
+    [["parasites", f.parasites], ["wbc", f.wbc]].forEach(function (pair) {
+      pair[1].forEach(function (m, i) {
+        var d = Math.hypot(m.x - x, m.y - y);
+        if (d <= Math.max(m.r, tolerance) && (!best || d < best.d)) best = { list: pair[0], i: i, d: d };
+      });
+    });
+    if (best) f[best.list].splice(best.i, 1);
+  }
+
+  // ---------- flagged photos ----------
+  $("retake-btn").addEventListener("click", function () {
+    state.current = null;
+    renderField();
+    if (state.session.sample) nextSample(); else $("file-input").click();
+  });
+  $("use-anyway-btn").addEventListener("click", function () {
+    if (state.current) { state.current.accepted = true; renderField(); }
+  });
 
   // ---------- confirm / discard (WHO running count) ----------
   function fieldCounts(f) {

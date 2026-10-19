@@ -50,6 +50,13 @@ def test_api_rejects_non_image():
     assert r.json() == {"error": "not_an_image"}
 
 
+def test_blurred_photo_is_flagged():
+    blurred = cv2.GaussianBlur(load_fixture(), (0, 0), 6)
+    res = analyze(blurred)
+    assert res["quality"]["reason"] == "blur"
+    assert res["quality"]["ok"] is False
+
+
 def test_blank_image_has_no_cells():
     blank = np.full((1200, 1600, 3), 230, np.uint8)
     assert analyze(blank)["quality"]["reason"] == "no_cells"
