@@ -7,3 +7,15 @@
 !.env.example
 
 node_modules/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Raw NLM dataset (large, not redistributed)
+/data/
+
+# Vercel
+.vercel
