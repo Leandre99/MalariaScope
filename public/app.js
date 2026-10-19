@@ -358,6 +358,167 @@
 
   $("brand").addEventListener("click", function () { show(state.session ? "counting" : "start"); });
   $("new-slide-btn").addEventListener("click", newSlide);
+  $("result-new-btn").addEventListener("click", newSlide);
+
+  // ---------- result and report ----------
+  function fmt(n) { return n.toLocaleString("en-US"); }
+
+  $("result-btn").addEventListener("click", function () {
+    state.reviewed = false;
+    $("review-check").checked = false;
+    renderResult();
+    show("result");
+  });
+  $("back-btn").addEventListener("click", function () { show("counting"); });
+  $("print-btn").addEventListener("click", function () { window.print(); });
+  $("review-check").addEventListener("change", function () {
+    state.reviewed = this.checked;
+    renderStatus();
+  });
+
+  function renderStatus() {
+    var st = $("r-status");
+    st.textContent = state.reviewed ? "Reviewed by technician" : "Preliminary";
+    st.className = "status " + (state.reviewed ? "reviewed" : "preliminary");
+  }
+
+  function renderResult() {
+    var s = state.session;
+    var d = Protocol.density(s);
+    $("r-ref").textContent = s.reference + (s.sample ? " (sample data)" : "");
+    $("r-date").textContent = new Date().toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" });
+    $("r-density").textContent = s.totals.parasites === 0
+      ? "No parasites seen in the fields examined"
+      : fmt(d) + " parasites/µL";
+    $("r-formula").textContent = s.totals.parasites + " parasites × " + fmt(Protocol.WBC_PER_UL) +
+      " ÷ " + s.totals.wbc + " WBC = " + (d === null ? "—" : fmt(d)) + " /µL";
+    $("r-fields").textContent = s.fields.length;
+    $("r-wbc").textContent = s.totals.wbc;
+    $("r-par").textContent = s.totals.parasites;
+    var body = $("r-table").querySelector("tbody");
+    body.innerHTML = "";
+    s.fields.forEach(function (f) {
+      var tr = document.createElement("tr");
+      [f.id, f.wbcCount, f.parasiteCount, f.note || ""].forEach(function (v) {
+        var td = document.createElement("td");
+        td.textContent = v;
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+    renderStatus();
+  }
+
+  // ---------- evaluation ("How accurate is it?") ----------
+  $("nav-accuracy").addEventListener("click", function () {
+    show("evaluation");
+    loadEvaluation();
+  });
+
+  function pct(x) { return x === null || x === undefined ? "—" : Math.round(x * 100) + "%"; }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function metric(label, value, sub) {
+    var m = el("div", "metric");
+    m.appendChild(el("span", "label", label));
+    m.appendChild(el("span", "big", value));
+    if (sub) m.appendChild(el("span", "hint", sub));
+    return m;
+  }
+
+  function table(headers, rows) {
+    var wrap = el("div", "table-wrap");
+    var t = el("table", "table");
+    var tr = el("tr");
+    headers.forEach(function (h) { tr.appendChild(el("th", "", h)); });
+    var thead = el("thead"); thead.appendChild(tr); t.appendChild(thead);
+    var tb = el("tbody");
+    rows.forEach(function (r) {
+      var row = el("tr");
+      r.forEach(function (v) { row.appendChild(el("td", "", String(v))); });
+      tb.appendChild(row);
+    });
+    t.appendChild(tb); wrap.appendChild(t);
+    return wrap;
+  }
+
+  var evalLoaded = false;
+  function loadEvaluation() {
+    if (evalLoaded) return;
+    fetch("evaluation/evaluation.json").then(function (r) { return r.json(); }).then(function (ev) {
+      evalLoaded = true;
+      var s = ev.summary;
+      $("eval-intro").textContent =
+        "We tuned MalariaScope on " + ev.tuningPatients.length + " patients, then tested it on " +
+        ev.heldOutPatients.length + " other patients it had never seen (" + ev.images.length +
+        " fields). Every number below compares its automatic marks — before any human correction — with an expert's annotations.";
+      var body = $("eval-body");
+      body.innerHTML = "";
+
+      body.appendChild(el("h2", "", "White blood cells"));
+      var g1 = el("div", "metric-grid");
+      g1.appendChild(metric("Found by the expert", s.wbc.expertTotal));
+      g1.appendChild(metric("Recall", pct(s.wbc.recall), "share of expert WBCs MalariaScope also marked"));
+      g1.appendChild(metric("Precision", pct(s.wbc.precision), "share of MalariaScope's WBC marks that were real"));
+      g1.appendChild(metric("Average error per field", "±" + s.wbc.meanAbsCountError, "WBC"));
+      body.appendChild(g1);
+
+      body.appendChild(el("h2", "", "Parasites"));
+      var g2 = el("div", "metric-grid");
+      g2.appendChild(metric("Found by the expert", s.parasites.expertTotal));
+      g2.appendChild(metric("Recall", pct(s.parasites.recall), "share of expert parasites MalariaScope also marked"));
+      g2.appendChild(metric("Precision", pct(s.parasites.precision), "share of MalariaScope's parasite marks that were real"));
+      g2.appendChild(metric("Average error per field", "±" + s.parasites.meanAbsCountError, "parasites"));
+      body.appendChild(g2);
+
+      body.appendChild(el("h2", "", "Parasite density per patient (all fields, no correction)"));
+      body.appendChild(table(["Patient", "Fields", "Expert /µL", "MalariaScope /µL", "Difference"],
+        ev.patients.map(function (p) {
+          var diff = p.expert.density ? Math.round(100 * (p.ours.density - p.expert.density) / p.expert.density) : null;
+          return [p.patient, p.fields, fmt(p.expert.density), fmt(p.ours.density), diff === null ? "—" : (diff > 0 ? "+" : "") + diff + "%"];
+        })));
+
+      body.appendChild(el("p", "muted",
+        "Read this table with care: on slides with many parasites the automatic count lands close to the expert's, " +
+        "but on a slide with few parasites the false alarms (debris, platelets) outnumber the real parasites and the density " +
+        "is overestimated several times over. That is why the technician reviews and corrects every field before the result is used."));
+
+      body.appendChild(el("h2", "", "Where it fails"));
+      body.appendChild(el("p", "muted", "Circles are MalariaScope's marks (blue = WBC, red = parasite); yellow crosses are the expert's. These are the fields with the largest parasite-count errors."));
+      var fl = el("div", "failures");
+      ev.failures.forEach(function (f) {
+        var card = el("figure", "failure");
+        card.style.margin = "0";
+        var img = el("img"); img.src = f.image; img.alt = "Failure example " + f.id; img.loading = "lazy";
+        card.appendChild(img);
+        var cap = el("p");
+        cap.appendChild(el("strong", "", "Expert " + f.expert.parasites + " parasites · MalariaScope " + f.ours.parasites + ". "));
+        cap.appendChild(document.createTextNode(f.note || ""));
+        card.appendChild(cap);
+        fl.appendChild(card);
+      });
+      body.appendChild(fl);
+
+      body.appendChild(el("h2", "", "Every test field"));
+      body.appendChild(table(["Field", "Expert WBC", "Our WBC", "Expert parasites", "Our parasites", "Parasite recall", "Parasite precision"],
+        ev.images.map(function (r) {
+          return [r.id, r.expert.wbc, r.ours.wbc, r.expert.parasites, r.ours.parasites, pct(r.recall.parasites), pct(r.precision.parasites)];
+        })));
+
+      var src = el("p", "hint", "Data: " + ev.dataset + ". " + ev.citation + ". Matching radius: " +
+        ev.matchRadiusPx.wbc + " px (WBC) and " + ev.matchRadiusPx.parasites + " px (parasites) on " + ev.matchRadiusPx.imageLongSide + " px images.");
+      src.style.marginTop = "1.5rem";
+      body.appendChild(src);
+    }).catch(function () {
+      $("eval-intro").textContent = "The evaluation results couldn't be loaded.";
+    });
+  }
 
   window.MalariaScope = { state: state, show: show };
   show("start");

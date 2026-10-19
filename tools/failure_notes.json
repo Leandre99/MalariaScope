@@ -1,0 +1,5 @@
+{
+  "TF7_C49P10/20170607_153736": "Bluish, pale stain: many parasites are faint and smaller than the dots MalariaScope was tuned on, so about 60% are missed, and two lightly stained white cells on the right are missed too. The technician would need to add marks here.",
+  "TF31_Sc440/20170724_170503": "Few real parasites, lots of pink granular debris and platelets. MalariaScope marks the debris as parasites. On low-parasite slides false alarms dominate, which is why this patient's density is overestimated (see table above) and why every mark must be reviewed.",
+  "TF7_C49P10/20170607_153049": "Same patient and same pale bluish stain as the first example: faint parasites are under-detected, and one white cell close to another is missed. Stain intensity varies between slides; a trained detector or per-slide colour calibration would help."
+}

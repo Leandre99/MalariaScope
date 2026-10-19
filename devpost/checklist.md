@@ -59,7 +59,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
   Learner check: Remove a wrong circle, add a missed parasite, and upload a blurry photo; say whether correcting feels quick enough.
   Commit: `Add mark correction and image quality check`
 
-- [ ] **6. Tuned detector with an honest accuracy screen**
+- [x] **6. Tuned detector with an honest accuracy screen**
   Becomes usable: Thresholds tuned on tuning patients; "How accurate is it?" screen comparing MalariaScope to experts on held-out patients, with failure examples.
   Why now: Needs the engine, data and screens from earlier slices; its numbers feed the demo and README.
   PRD ref: `prd.md > Accuracy evaluation`
@@ -104,3 +104,4 @@ Activity mode:
 - Dataset layout differs from the spec's guess — images are `<patient>/<name>.jpg` and annotations `GT_updated/<patient>/<name>.txt` (parasites = circles, WBCs = single points); the photos carry an EXIF rotation while expert coordinates use the raw landscape pixel grid, so tools load images ignoring EXIF orientation. Remote-zip range reads worked, no full download needed. 10 patients fetched; 9 have ≥ 200 WBC across their fields, so sample mode can reach the WHO threshold.
 - API moved from `api/index.py` to root `app.py` (+ `vercel.json`, `.python-version`) — Vercel's FastAPI support detects `app.py`/`index.py` entrypoints and treats an `api/` folder as legacy per-file functions; it also asks not to mount `public/` in the app, so the static mount now runs only outside Vercel.
 - Slice 4 built before slice 3 was verified — slice 3's config is committed and pushed, but its live check waits for the learner to create the Vercel project; building continued rather than idling.
+- Engine gained two parasite rules found while tuning — merging dots closer than 7 px (ring forms split in two were double-counted) and a darkness limit (pale diffuse purple spots were false alarms). Held-out result: WBC 98% precision / 89% recall; parasites 60% / 59%, total count within 1%, but a low-parasitaemia patient is overestimated ~5×; shown openly on the accuracy screen.

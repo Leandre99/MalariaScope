@@ -36,6 +36,8 @@ DEFAULT_PARAMS = {
     "par_area_max": 90,
     "par_sat_min": 40,          # parasite chromatin is purple, not grey debris
     "par_circularity_min": 0.35,
+    "par_darkest_max": 255,     # darkest green-channel value in the dot must be at most this
+    "par_merge_dist": 7,        # px: dots closer than this are one parasite
     "no_cells_stain_frac": 0.0005,
 }
 
@@ -141,9 +143,23 @@ def detect_parasites(img, hsv, mask, wbc_blob, p):
         region = labels[y0:y0 + h, x0:x0 + w] == i
         if sat[y0:y0 + h, x0:x0 + w][region].mean() < p["par_sat_min"]:
             continue
+        if g[y0:y0 + h, x0:x0 + w][region].min() > p["par_darkest_max"]:
+            continue  # pale, diffuse purple (platelets, background) rather than dark chromatin
         x, y = centroids[i]
         found.append({"x": round(float(x), 1), "y": round(float(y), 1), "r": round(float(max(w, h) / 2 + 5), 1)})
-    return found
+    return merge_close(found, p["par_merge_dist"])
+
+
+def merge_close(marks, dist):
+    """A ring-form parasite can split into two dots: merge marks closer than `dist`."""
+    merged = []
+    for m in marks:
+        for k in merged:
+            if (k["x"] - m["x"]) ** 2 + (k["y"] - m["y"]) ** 2 <= dist * dist:
+                break
+        else:
+            merged.append(m)
+    return merged
 
 
 def analyze(img, params=None):

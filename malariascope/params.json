@@ -1,0 +1,10 @@
+{
+  "par_tophat_kernel": 9,
+  "par_tophat_min": 80,
+  "par_area_min": 3,
+  "par_area_max": 25,
+  "par_sat_min": 70,
+  "par_circularity_min": 0.45,
+  "par_darkest_max": 130,
+  "focus_min": 4.0
+}

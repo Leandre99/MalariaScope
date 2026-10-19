@@ -1,0 +1,1959 @@
+{
+ "dataset": "NLM Thick Smears 150 (P. falciparum), smartphone microscopy, Chittagong Bangladesh",
+ "citation": "Yang F. et al., Deep Learning for Smartphone-Based Malaria Parasite Detection in Thick Blood Smears, IEEE J Biomed Health Inform, 2020",
+ "tuningPatients": [
+  "TF102_234",
+  "TF15_C87P48",
+  "TF19_C94P55",
+  "TF35_Sc521",
+  "TF49_CW3",
+  "TF86_BD2_93"
+ ],
+ "heldOutPatients": [
+  "TF63_CS25",
+  "TF31_Sc440",
+  "TF45_UW18",
+  "TF7_C49P10"
+ ],
+ "matchRadiusPx": {
+  "wbc": 25,
+  "parasites": 10,
+  "imageLongSide": 1600
+ },
+ "summary": {
+  "wbc": {
+   "expertTotal": 886,
+   "oursTotal": 806,
+   "precision": 0.976,
+   "recall": 0.888,
+   "meanAbsCountError": 1.2,
+   "totalCountError": -0.09
+  },
+  "parasites": {
+   "expertTotal": 3864,
+   "oursTotal": 3828,
+   "precision": 0.597,
+   "recall": 0.591,
+   "meanAbsCountError": 20.8,
+   "totalCountError": -0.009
+  }
+ },
+ "patients": [
+  {
+   "patient": "TF31_Sc440",
+   "fields": 20,
+   "expert": {
+    "wbc": 234,
+    "parasites": 111,
+    "density": 3795
+   },
+   "ours": {
+    "wbc": 221,
+    "parasites": 583,
+    "density": 21104
+   }
+  },
+  {
+   "patient": "TF45_UW18",
+   "fields": 19,
+   "expert": {
+    "wbc": 215,
+    "parasites": 868,
+    "density": 32298
+   },
+   "ours": {
+    "wbc": 208,
+    "parasites": 953,
+    "density": 36654
+   }
+  },
+  {
+   "patient": "TF63_CS25",
+   "fields": 20,
+   "expert": {
+    "wbc": 221,
+    "parasites": 839,
+    "density": 30371
+   },
+   "ours": {
+    "wbc": 218,
+    "parasites": 1041,
+    "density": 38202
+   }
+  },
+  {
+   "patient": "TF7_C49P10",
+   "fields": 20,
+   "expert": {
+    "wbc": 216,
+    "parasites": 2046,
+    "density": 75778
+   },
+   "ours": {
+    "wbc": 159,
+    "parasites": 1251,
+    "density": 62943
+   }
+  }
+ ],
+ "images": [
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 4
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 25
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 4
+   },
+   "id": "TF31_Sc440/20170724_162921",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.16
+   },
+   "recall": {
+    "wbc": 0.909,
+    "parasites": 1.0
+   }
+  },
+  {
+   "expert": {
+    "wbc": 16,
+    "parasites": 8
+   },
+   "ours": {
+    "wbc": 14,
+    "parasites": 33
+   },
+   "tp": {
+    "wbc": 14,
+    "parasites": 5
+   },
+   "id": "TF31_Sc440/20170724_163218",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.152
+   },
+   "recall": {
+    "wbc": 0.875,
+    "parasites": 0.625
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 6
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 24
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 4
+   },
+   "id": "TF31_Sc440/20170724_163412",
+   "precision": {
+    "wbc": 0.909,
+    "parasites": 0.167
+   },
+   "recall": {
+    "wbc": 0.833,
+    "parasites": 0.667
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 10
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 33
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 7
+   },
+   "id": "TF31_Sc440/20170724_163535",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.212
+   },
+   "recall": {
+    "wbc": 0.769,
+    "parasites": 0.7
+   }
+  },
+  {
+   "expert": {
+    "wbc": 15,
+    "parasites": 10
+   },
+   "ours": {
+    "wbc": 14,
+    "parasites": 28
+   },
+   "tp": {
+    "wbc": 14,
+    "parasites": 6
+   },
+   "id": "TF31_Sc440/20170724_163653",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.214
+   },
+   "recall": {
+    "wbc": 0.933,
+    "parasites": 0.6
+   }
+  },
+  {
+   "expert": {
+    "wbc": 18,
+    "parasites": 10
+   },
+   "ours": {
+    "wbc": 17,
+    "parasites": 31
+   },
+   "tp": {
+    "wbc": 17,
+    "parasites": 5
+   },
+   "id": "TF31_Sc440/20170724_163839",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.161
+   },
+   "recall": {
+    "wbc": 0.944,
+    "parasites": 0.5
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 6
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 17
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 4
+   },
+   "id": "TF31_Sc440/20170724_164054",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.235
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.667
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 4
+   },
+   "ours": {
+    "wbc": 13,
+    "parasites": 23
+   },
+   "tp": {
+    "wbc": 13,
+    "parasites": 3
+   },
+   "id": "TF31_Sc440/20170724_164306",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.13
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.75
+   }
+  },
+  {
+   "expert": {
+    "wbc": 8,
+    "parasites": 3
+   },
+   "ours": {
+    "wbc": 8,
+    "parasites": 29
+   },
+   "tp": {
+    "wbc": 8,
+    "parasites": 2
+   },
+   "id": "TF31_Sc440/20170724_164459",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.069
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.667
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 7
+   },
+   "ours": {
+    "wbc": 14,
+    "parasites": 31
+   },
+   "tp": {
+    "wbc": 13,
+    "parasites": 7
+   },
+   "id": "TF31_Sc440/20170724_164855",
+   "precision": {
+    "wbc": 0.929,
+    "parasites": 0.226
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 1.0
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 6
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 26
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 5
+   },
+   "id": "TF31_Sc440/20170724_165145",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.192
+   },
+   "recall": {
+    "wbc": 0.909,
+    "parasites": 0.833
+   }
+  },
+  {
+   "expert": {
+    "wbc": 14,
+    "parasites": 4
+   },
+   "ours": {
+    "wbc": 14,
+    "parasites": 23
+   },
+   "tp": {
+    "wbc": 14,
+    "parasites": 2
+   },
+   "id": "TF31_Sc440/20170724_165729",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.087
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.5
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 6
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 30
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 1
+   },
+   "id": "TF31_Sc440/20170724_170020",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.033
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.167
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 4
+   },
+   "ours": {
+    "wbc": 13,
+    "parasites": 31
+   },
+   "tp": {
+    "wbc": 13,
+    "parasites": 2
+   },
+   "id": "TF31_Sc440/20170724_170235",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.065
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.5
+   }
+  },
+  {
+   "expert": {
+    "wbc": 8,
+    "parasites": 3
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 72
+   },
+   "tp": {
+    "wbc": 8,
+    "parasites": 2
+   },
+   "id": "TF31_Sc440/20170724_170503",
+   "precision": {
+    "wbc": 0.889,
+    "parasites": 0.028
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.667
+   }
+  },
+  {
+   "expert": {
+    "wbc": 14,
+    "parasites": 7
+   },
+   "ours": {
+    "wbc": 13,
+    "parasites": 15
+   },
+   "tp": {
+    "wbc": 13,
+    "parasites": 4
+   },
+   "id": "TF31_Sc440/20170724_171137",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.267
+   },
+   "recall": {
+    "wbc": 0.929,
+    "parasites": 0.571
+   }
+  },
+  {
+   "expert": {
+    "wbc": 7,
+    "parasites": 5
+   },
+   "ours": {
+    "wbc": 5,
+    "parasites": 30
+   },
+   "tp": {
+    "wbc": 5,
+    "parasites": 3
+   },
+   "id": "TF31_Sc440/20170724_171355",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.1
+   },
+   "recall": {
+    "wbc": 0.714,
+    "parasites": 0.6
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 1
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 17
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 1
+   },
+   "id": "TF31_Sc440/20170724_171601",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.059
+   },
+   "recall": {
+    "wbc": 0.9,
+    "parasites": 1.0
+   }
+  },
+  {
+   "expert": {
+    "wbc": 8,
+    "parasites": 2
+   },
+   "ours": {
+    "wbc": 7,
+    "parasites": 23
+   },
+   "tp": {
+    "wbc": 7,
+    "parasites": 0
+   },
+   "id": "TF31_Sc440/20170724_171907",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.0
+   },
+   "recall": {
+    "wbc": 0.875,
+    "parasites": 0.0
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 5
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 42
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 3
+   },
+   "id": "TF31_Sc440/20170724_172126",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.071
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.6
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 72
+   },
+   "ours": {
+    "wbc": 12,
+    "parasites": 57
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 49
+   },
+   "id": "TF45_UW18/20170807_155628",
+   "precision": {
+    "wbc": 0.833,
+    "parasites": 0.86
+   },
+   "recall": {
+    "wbc": 0.909,
+    "parasites": 0.681
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 50
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 64
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 44
+   },
+   "id": "TF45_UW18/20170807_155725",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.688
+   },
+   "recall": {
+    "wbc": 0.917,
+    "parasites": 0.88
+   }
+  },
+  {
+   "expert": {
+    "wbc": 15,
+    "parasites": 50
+   },
+   "ours": {
+    "wbc": 14,
+    "parasites": 59
+   },
+   "tp": {
+    "wbc": 14,
+    "parasites": 45
+   },
+   "id": "TF45_UW18/20170807_155927",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.763
+   },
+   "recall": {
+    "wbc": 0.933,
+    "parasites": 0.9
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 51
+   },
+   "ours": {
+    "wbc": 12,
+    "parasites": 53
+   },
+   "tp": {
+    "wbc": 12,
+    "parasites": 43
+   },
+   "id": "TF45_UW18/20170807_160045",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.811
+   },
+   "recall": {
+    "wbc": 0.923,
+    "parasites": 0.843
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 58
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 67
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 52
+   },
+   "id": "TF45_UW18/20170807_160154",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.776
+   },
+   "recall": {
+    "wbc": 0.818,
+    "parasites": 0.897
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 55
+   },
+   "ours": {
+    "wbc": 13,
+    "parasites": 58
+   },
+   "tp": {
+    "wbc": 13,
+    "parasites": 47
+   },
+   "id": "TF45_UW18/20170807_160257",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.81
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.855
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 45
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 50
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 36
+   },
+   "id": "TF45_UW18/20170807_160413",
+   "precision": {
+    "wbc": 0.818,
+    "parasites": 0.72
+   },
+   "recall": {
+    "wbc": 0.9,
+    "parasites": 0.8
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 44
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 37
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 31
+   },
+   "id": "TF45_UW18/20170807_160538",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.838
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.705
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 37
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 46
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 35
+   },
+   "id": "TF45_UW18/20170807_160643",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.761
+   },
+   "recall": {
+    "wbc": 0.909,
+    "parasites": 0.946
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 35
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 41
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 31
+   },
+   "id": "TF45_UW18/20170807_160752",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.756
+   },
+   "recall": {
+    "wbc": 0.9,
+    "parasites": 0.886
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 43
+   },
+   "ours": {
+    "wbc": 12,
+    "parasites": 56
+   },
+   "tp": {
+    "wbc": 12,
+    "parasites": 37
+   },
+   "id": "TF45_UW18/20170807_160843",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.661
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.86
+   }
+  },
+  {
+   "expert": {
+    "wbc": 15,
+    "parasites": 28
+   },
+   "ours": {
+    "wbc": 15,
+    "parasites": 26
+   },
+   "tp": {
+    "wbc": 13,
+    "parasites": 19
+   },
+   "id": "TF45_UW18/20170807_161003",
+   "precision": {
+    "wbc": 0.867,
+    "parasites": 0.731
+   },
+   "recall": {
+    "wbc": 0.867,
+    "parasites": 0.679
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 50
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 56
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 42
+   },
+   "id": "TF45_UW18/20170807_161204",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.75
+   },
+   "recall": {
+    "wbc": 0.917,
+    "parasites": 0.84
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 46
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 51
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 35
+   },
+   "id": "TF45_UW18/20170807_161248",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.686
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.761
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 63
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 69
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 56
+   },
+   "id": "TF45_UW18/20170807_161346",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.812
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.889
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 38
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 41
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 28
+   },
+   "id": "TF45_UW18/20170807_161527",
+   "precision": {
+    "wbc": 0.909,
+    "parasites": 0.683
+   },
+   "recall": {
+    "wbc": 0.909,
+    "parasites": 0.737
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 32
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 33
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 24
+   },
+   "id": "TF45_UW18/20170807_162243",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.727
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.75
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 37
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 48
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 29
+   },
+   "id": "TF45_UW18/20170807_162354",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.604
+   },
+   "recall": {
+    "wbc": 0.9,
+    "parasites": 0.784
+   }
+  },
+  {
+   "expert": {
+    "wbc": 8,
+    "parasites": 34
+   },
+   "ours": {
+    "wbc": 8,
+    "parasites": 41
+   },
+   "tp": {
+    "wbc": 8,
+    "parasites": 30
+   },
+   "id": "TF45_UW18/20170807_162441",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.732
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.882
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 60
+   },
+   "ours": {
+    "wbc": 12,
+    "parasites": 61
+   },
+   "tp": {
+    "wbc": 12,
+    "parasites": 52
+   },
+   "id": "TF63_CS25/20170817_102412",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.852
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.867
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 48
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 60
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 38
+   },
+   "id": "TF63_CS25/20170817_102652",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.633
+   },
+   "recall": {
+    "wbc": 0.917,
+    "parasites": 0.792
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 53
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 112
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 45
+   },
+   "id": "TF63_CS25/20170817_102909",
+   "precision": {
+    "wbc": 0.818,
+    "parasites": 0.402
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.849
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 48
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 109
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 41
+   },
+   "id": "TF63_CS25/20170817_103130",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.376
+   },
+   "recall": {
+    "wbc": 0.909,
+    "parasites": 0.854
+   }
+  },
+  {
+   "expert": {
+    "wbc": 16,
+    "parasites": 70
+   },
+   "ours": {
+    "wbc": 15,
+    "parasites": 105
+   },
+   "tp": {
+    "wbc": 15,
+    "parasites": 60
+   },
+   "id": "TF63_CS25/20170817_103303",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.571
+   },
+   "recall": {
+    "wbc": 0.938,
+    "parasites": 0.857
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 26
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 25
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 20
+   },
+   "id": "TF63_CS25/20170817_103633",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.8
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.769
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 41
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 40
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 31
+   },
+   "id": "TF63_CS25/20170817_103827",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.775
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.756
+   }
+  },
+  {
+   "expert": {
+    "wbc": 8,
+    "parasites": 53
+   },
+   "ours": {
+    "wbc": 8,
+    "parasites": 46
+   },
+   "tp": {
+    "wbc": 8,
+    "parasites": 41
+   },
+   "id": "TF63_CS25/20170817_104032",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.891
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.774
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 33
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 40
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 30
+   },
+   "id": "TF63_CS25/20170817_104117",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.75
+   },
+   "recall": {
+    "wbc": 0.9,
+    "parasites": 0.909
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 38
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 57
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 36
+   },
+   "id": "TF63_CS25/20170817_104244",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.632
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.947
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 47
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 56
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 32
+   },
+   "id": "TF63_CS25/20170817_104433",
+   "precision": {
+    "wbc": 0.909,
+    "parasites": 0.571
+   },
+   "recall": {
+    "wbc": 0.909,
+    "parasites": 0.681
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 36
+   },
+   "ours": {
+    "wbc": 7,
+    "parasites": 38
+   },
+   "tp": {
+    "wbc": 7,
+    "parasites": 30
+   },
+   "id": "TF63_CS25/20170817_104747",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.789
+   },
+   "recall": {
+    "wbc": 0.778,
+    "parasites": 0.833
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 36
+   },
+   "ours": {
+    "wbc": 11,
+    "parasites": 33
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 26
+   },
+   "id": "TF63_CS25/20170817_104843",
+   "precision": {
+    "wbc": 0.909,
+    "parasites": 0.788
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.722
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 51
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 59
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 45
+   },
+   "id": "TF63_CS25/20170817_105614",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.763
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.882
+   }
+  },
+  {
+   "expert": {
+    "wbc": 18,
+    "parasites": 33
+   },
+   "ours": {
+    "wbc": 18,
+    "parasites": 32
+   },
+   "tp": {
+    "wbc": 17,
+    "parasites": 21
+   },
+   "id": "TF63_CS25/20170817_105816",
+   "precision": {
+    "wbc": 0.944,
+    "parasites": 0.656
+   },
+   "recall": {
+    "wbc": 0.944,
+    "parasites": 0.636
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 45
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 49
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 39
+   },
+   "id": "TF63_CS25/20170817_110000",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.796
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.867
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 39
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 37
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 32
+   },
+   "id": "TF63_CS25/20170817_110133",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.865
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.821
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 31
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 37
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 30
+   },
+   "id": "TF63_CS25/20170817_110254",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.811
+   },
+   "recall": {
+    "wbc": 0.9,
+    "parasites": 0.968
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 26
+   },
+   "ours": {
+    "wbc": 12,
+    "parasites": 22
+   },
+   "tp": {
+    "wbc": 11,
+    "parasites": 18
+   },
+   "id": "TF63_CS25/20170817_110500",
+   "precision": {
+    "wbc": 0.917,
+    "parasites": 0.818
+   },
+   "recall": {
+    "wbc": 0.917,
+    "parasites": 0.692
+   }
+  },
+  {
+   "expert": {
+    "wbc": 14,
+    "parasites": 25
+   },
+   "ours": {
+    "wbc": 15,
+    "parasites": 23
+   },
+   "tp": {
+    "wbc": 14,
+    "parasites": 21
+   },
+   "id": "TF63_CS25/20170817_110702",
+   "precision": {
+    "wbc": 0.933,
+    "parasites": 0.913
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.84
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 63
+   },
+   "ours": {
+    "wbc": 5,
+    "parasites": 56
+   },
+   "tp": {
+    "wbc": 5,
+    "parasites": 34
+   },
+   "id": "TF7_C49P10/20170607_142842",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.607
+   },
+   "recall": {
+    "wbc": 0.5,
+    "parasites": 0.54
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 58
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 34
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 20
+   },
+   "id": "TF7_C49P10/20170607_143659",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.588
+   },
+   "recall": {
+    "wbc": 0.9,
+    "parasites": 0.345
+   }
+  },
+  {
+   "expert": {
+    "wbc": 8,
+    "parasites": 59
+   },
+   "ours": {
+    "wbc": 7,
+    "parasites": 44
+   },
+   "tp": {
+    "wbc": 6,
+    "parasites": 22
+   },
+   "id": "TF7_C49P10/20170607_144102",
+   "precision": {
+    "wbc": 0.857,
+    "parasites": 0.5
+   },
+   "recall": {
+    "wbc": 0.75,
+    "parasites": 0.373
+   }
+  },
+  {
+   "expert": {
+    "wbc": 17,
+    "parasites": 96
+   },
+   "ours": {
+    "wbc": 13,
+    "parasites": 39
+   },
+   "tp": {
+    "wbc": 13,
+    "parasites": 23
+   },
+   "id": "TF7_C49P10/20170607_144213",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.59
+   },
+   "recall": {
+    "wbc": 0.765,
+    "parasites": 0.24
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 67
+   },
+   "ours": {
+    "wbc": 6,
+    "parasites": 25
+   },
+   "tp": {
+    "wbc": 6,
+    "parasites": 19
+   },
+   "id": "TF7_C49P10/20170607_144420",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.76
+   },
+   "recall": {
+    "wbc": 0.545,
+    "parasites": 0.284
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 114
+   },
+   "ours": {
+    "wbc": 7,
+    "parasites": 58
+   },
+   "tp": {
+    "wbc": 7,
+    "parasites": 42
+   },
+   "id": "TF7_C49P10/20170607_144600",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.724
+   },
+   "recall": {
+    "wbc": 0.636,
+    "parasites": 0.368
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 85
+   },
+   "ours": {
+    "wbc": 6,
+    "parasites": 61
+   },
+   "tp": {
+    "wbc": 6,
+    "parasites": 34
+   },
+   "id": "TF7_C49P10/20170607_144743",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.557
+   },
+   "recall": {
+    "wbc": 0.6,
+    "parasites": 0.4
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 59
+   },
+   "ours": {
+    "wbc": 6,
+    "parasites": 35
+   },
+   "tp": {
+    "wbc": 6,
+    "parasites": 20
+   },
+   "id": "TF7_C49P10/20170607_145036",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.571
+   },
+   "recall": {
+    "wbc": 0.667,
+    "parasites": 0.339
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 108
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 61
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 46
+   },
+   "id": "TF7_C49P10/20170607_145223",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.754
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.426
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 116
+   },
+   "ours": {
+    "wbc": 6,
+    "parasites": 57
+   },
+   "tp": {
+    "wbc": 6,
+    "parasites": 37
+   },
+   "id": "TF7_C49P10/20170607_145340",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.649
+   },
+   "recall": {
+    "wbc": 0.667,
+    "parasites": 0.319
+   }
+  },
+  {
+   "expert": {
+    "wbc": 15,
+    "parasites": 158
+   },
+   "ours": {
+    "wbc": 7,
+    "parasites": 118
+   },
+   "tp": {
+    "wbc": 7,
+    "parasites": 86
+   },
+   "id": "TF7_C49P10/20170607_151553",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.729
+   },
+   "recall": {
+    "wbc": 0.467,
+    "parasites": 0.544
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 116
+   },
+   "ours": {
+    "wbc": 8,
+    "parasites": 78
+   },
+   "tp": {
+    "wbc": 8,
+    "parasites": 54
+   },
+   "id": "TF7_C49P10/20170607_151733",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.692
+   },
+   "recall": {
+    "wbc": 0.8,
+    "parasites": 0.466
+   }
+  },
+  {
+   "expert": {
+    "wbc": 9,
+    "parasites": 100
+   },
+   "ours": {
+    "wbc": 7,
+    "parasites": 94
+   },
+   "tp": {
+    "wbc": 7,
+    "parasites": 53
+   },
+   "id": "TF7_C49P10/20170607_152137",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.564
+   },
+   "recall": {
+    "wbc": 0.778,
+    "parasites": 0.53
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 136
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 89
+   },
+   "tp": {
+    "wbc": 9,
+    "parasites": 64
+   },
+   "id": "TF7_C49P10/20170607_152534",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.719
+   },
+   "recall": {
+    "wbc": 0.692,
+    "parasites": 0.471
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 75
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 49
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 27
+   },
+   "id": "TF7_C49P10/20170607_152833",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.551
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.36
+   }
+  },
+  {
+   "expert": {
+    "wbc": 13,
+    "parasites": 129
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 66
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 51
+   },
+   "id": "TF7_C49P10/20170607_153049",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.773
+   },
+   "recall": {
+    "wbc": 0.769,
+    "parasites": 0.395
+   }
+  },
+  {
+   "expert": {
+    "wbc": 12,
+    "parasites": 92
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 62
+   },
+   "tp": {
+    "wbc": 10,
+    "parasites": 34
+   },
+   "id": "TF7_C49P10/20170607_153225",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.548
+   },
+   "recall": {
+    "wbc": 0.833,
+    "parasites": 0.37
+   }
+  },
+  {
+   "expert": {
+    "wbc": 8,
+    "parasites": 121
+   },
+   "ours": {
+    "wbc": 8,
+    "parasites": 69
+   },
+   "tp": {
+    "wbc": 8,
+    "parasites": 41
+   },
+   "id": "TF7_C49P10/20170607_153400",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.594
+   },
+   "recall": {
+    "wbc": 1.0,
+    "parasites": 0.339
+   }
+  },
+  {
+   "expert": {
+    "wbc": 11,
+    "parasites": 149
+   },
+   "ours": {
+    "wbc": 7,
+    "parasites": 101
+   },
+   "tp": {
+    "wbc": 7,
+    "parasites": 64
+   },
+   "id": "TF7_C49P10/20170607_153516",
+   "precision": {
+    "wbc": 1.0,
+    "parasites": 0.634
+   },
+   "recall": {
+    "wbc": 0.636,
+    "parasites": 0.43
+   }
+  },
+  {
+   "expert": {
+    "wbc": 10,
+    "parasites": 145
+   },
+   "ours": {
+    "wbc": 8,
+    "parasites": 55
+   },
+   "tp": {
+    "wbc": 7,
+    "parasites": 43
+   },
+   "id": "TF7_C49P10/20170607_153736",
+   "precision": {
+    "wbc": 0.875,
+    "parasites": 0.782
+   },
+   "recall": {
+    "wbc": 0.7,
+    "parasites": 0.297
+   }
+  }
+ ],
+ "failures": [
+  {
+   "id": "TF7_C49P10/20170607_153736",
+   "image": "evaluation/failure-1.jpg",
+   "expert": {
+    "wbc": 10,
+    "parasites": 145
+   },
+   "ours": {
+    "wbc": 8,
+    "parasites": 55
+   },
+   "note": "Bluish, pale stain: many parasites are faint and smaller than the dots MalariaScope was tuned on, so about 60% are missed, and two lightly stained white cells on the right are missed too. The technician would need to add marks here."
+  },
+  {
+   "id": "TF31_Sc440/20170724_170503",
+   "image": "evaluation/failure-2.jpg",
+   "expert": {
+    "wbc": 8,
+    "parasites": 3
+   },
+   "ours": {
+    "wbc": 9,
+    "parasites": 72
+   },
+   "note": "Few real parasites, lots of pink granular debris and platelets. MalariaScope marks the debris as parasites. On low-parasite slides false alarms dominate, which is why this patient's density is overestimated (see table above) and why every mark must be reviewed."
+  },
+  {
+   "id": "TF7_C49P10/20170607_153049",
+   "image": "evaluation/failure-3.jpg",
+   "expert": {
+    "wbc": 13,
+    "parasites": 129
+   },
+   "ours": {
+    "wbc": 10,
+    "parasites": 66
+   },
+   "note": "Same patient and same pale bluish stain as the first example: faint parasites are under-detected, and one white cell close to another is missed. Stain intensity varies between slides; a trained detector or per-slide colour calibration would help."
+  }
+ ]
+}
