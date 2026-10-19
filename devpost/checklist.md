@@ -23,7 +23,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
   Becomes usable: Run one command, open the page, start a slide, upload a field: the photo appears with detected WBCs and parasites circled and this field's counts shown.
   Why now: The first end-to-end path (page → API → OpenCV → page) that everything else builds on; the detection quality can be improved later without changing this path.
   PRD ref: `prd.md > The Core Journey` (steps 1–6), `prd.md > Starting a slide`, `prd.md > Field analysis`
-  Spec ref: `spec.md > Analyser API (api/index.py)`, `spec.md > Field analysis engine (malariascope/analysis.py)`, `spec.md > Counting page (public/app.js)`, `spec.md > Look and Feel`
+  Spec ref: `spec.md > Analyser API (app.py)`, `spec.md > Field analysis engine (malariascope/analysis.py)`, `spec.md > Counting page (public/app.js)`, `spec.md > Look and Feel`
   Build: FastAPI app with `/api/health` and `/api/analyze`; first-pass engine (field of view, stain map, WBC and parasite blobs) with hand-picked params; `index.html` + `styles.css` + `app.js` for Start and Counting screens, browser-side resize, canvas drawing, legend, "Analysing…" state, not-an-image error.
   Verify (mechanical): `pytest` on the engine with one dataset image (returns non-empty WBC list, JSON shape matches the spec); start uvicorn, `curl` `/api/health` and POST a dataset image to `/api/analyze`; load the page in the browser and upload an image.
   Learner check: Run the app, upload one of the downloaded field photos, and say whether the circles roughly match what you see.
@@ -102,3 +102,4 @@ Activity mode:
 
 ## Revisions
 - Dataset layout differs from the spec's guess — images are `<patient>/<name>.jpg` and annotations `GT_updated/<patient>/<name>.txt` (parasites = circles, WBCs = single points); the photos carry an EXIF rotation while expert coordinates use the raw landscape pixel grid, so tools load images ignoring EXIF orientation. Remote-zip range reads worked, no full download needed. 10 patients fetched; 9 have ≥ 200 WBC across their fields, so sample mode can reach the WHO threshold.
+- API moved from `api/index.py` to root `app.py` (+ `vercel.json`, `.python-version`) — Vercel's FastAPI support detects `app.py`/`index.py` entrypoints and treats an `api/` folder as legacy per-file functions; it also asks not to mount `public/` in the app, so the static mount now runs only outside Vercel.

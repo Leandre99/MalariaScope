@@ -3,9 +3,10 @@
 POST /api/analyze  multipart field "image" -> analysis result JSON
 GET  /api/health   -> {"ok": true}
 
-Run locally:  uvicorn api.index:app --reload   (also serves public/ at /)
-On Vercel:    public/ is served as static files; this file runs as a Python function.
+Run locally:  uvicorn app:app --reload   (also serves public/ at /)
+On Vercel:    public/ is served by Vercel's CDN; this file runs as a Python function.
 """
+import os
 import sys
 from pathlib import Path
 
@@ -13,7 +14,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 from malariascope.analysis import analyze, decode_image  # noqa: E402
 
@@ -39,6 +40,6 @@ async def analyze_field(image: UploadFile = File(...)):
 
 
 # Local development: serve the page from the same server. On Vercel the
-# public/ folder is served by the CDN before requests reach this function.
-if (ROOT / "public").is_dir():
+# public/ folder is served by the CDN, and Vercel asks not to mount it.
+if not os.environ.get("VERCEL") and (ROOT / "public").is_dir():
     app.mount("/", StaticFiles(directory=ROOT / "public", html=True), name="public")

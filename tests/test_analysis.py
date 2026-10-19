@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from api.index import app  # noqa: E402
+from app import app  # noqa: E402
 from malariascope.analysis import WORK_SIZE, analyze  # noqa: E402
 
 FIXTURE = ROOT / "tests" / "fixtures" / "field.jpg"

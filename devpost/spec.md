@@ -42,8 +42,8 @@ Learner agreed to the recommended stack at spec review ("oui").
 - Exact versions are pinned in `requirements.txt` at build time (latest stable then); not verified yet.
 
 ## Where It Runs and How Someone Tries It
-- **Locally:** `pip install -r requirements.txt`, then `uvicorn api.index:app --reload`, then open http://127.0.0.1:8000. The FastAPI app also serves `public/` locally, so one command runs everything. This is what we record for the demo video if deployment misbehaves.
-- **Public link (learner's choice: Vercel):** the repo is imported into Vercel (learner creates the free Vercel account and connects GitHub himself). Vercel serves `public/` as static files and runs `api/index.py` as a Python function. https://vercel.com/docs/frameworks/backend/fastapi
+- **Locally:** `pip install -r requirements.txt`, then `uvicorn app:app --reload`, then open http://127.0.0.1:8000. The FastAPI app also serves `public/` locally, so one command runs everything. This is what we record for the demo video if deployment misbehaves.
+- **Public link (learner's choice: Vercel):** the repo is imported into Vercel (learner creates the free Vercel account and connects GitHub himself). Vercel serves `public/` as static files and runs `app.py` as a Python function. https://vercel.com/docs/frameworks/backend/fastapi
 - Constraints checked: Vercel functions accept **at most 4.5 MB per request** → handled by resizing in the browser (step 3); Python function bundles may be up to **500 MB** → OpenCV headless + NumPy fit. https://vercel.com/docs/functions/limitations
 - **To verify early in the build:** FastAPI zero-config detection on Vercel and OpenCV importing correctly there (first deploy of a "hello" analyser).
 - Submission still needs the demo video (< 3 min, YouTube/Vimeo) and the public GitHub repo with an open-source licence (MIT) — handled in `6-ship`.
@@ -58,7 +58,7 @@ From `prd.md > Look and Feel`. Implemented as CSS custom properties in `public/s
 
 ## Components
 
-### Analyser API (`api/index.py`)
+### Analyser API (`app.py`)
 - `POST /api/analyze` — multipart field `image` (JPEG/PNG). Returns the **analysis result** (see Data Model). 400 with `{"error": "not_an_image"}` if unreadable.
 - `GET /api/health` → `{"ok": true}` (deploy check).
 - Locally also mounts `public/` as static files.
@@ -120,8 +120,9 @@ Run on the learner's PC, never on Vercel.
 
 ```
 malariascope/
-├── api/
-│   └── index.py              # FastAPI app: /api/analyze, /api/health (+ serves public/ locally)
+├── app.py                    # FastAPI app: /api/analyze, /api/health (+ serves public/ locally)
+├── vercel.json               # function settings (timeout, files left out of the bundle)
+├── .python-version           # 3.12 for Vercel
 ├── malariascope/
 │   ├── __init__.py
 │   ├── analysis.py           # OpenCV engine: field of view, focus, WBC + parasite detection
