@@ -121,7 +121,7 @@ Run on the learner's PC, never on Vercel.
 ```
 malariascope/
 ├── app.py                    # FastAPI app: /api/analyze, /api/health (+ serves public/ locally)
-├── vercel.json               # function settings (timeout, files left out of the bundle)
+├── vercel.json               # explicit builds: app.py as Python function, public/ as static files
 ├── .python-version           # 3.12 for Vercel
 ├── malariascope/
 │   ├── __init__.py

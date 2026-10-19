@@ -29,7 +29,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
   Learner check: Run the app, upload one of the downloaded field photos, and say whether the circles roughly match what you see.
   Commit: `Analyse an uploaded field and draw detections`
 
-- [ ] **3. The app runs on a public Vercel link**
+- [x] **3. The app runs on a public Vercel link**
   Becomes usable: The same upload-and-circles flow works at a `*.vercel.app` URL.
   Why now: OpenCV on Vercel is unverified; finding out now leaves time to fall back to a local demo.
   PRD ref: `prd.md > The Core Journey`
@@ -106,3 +106,4 @@ Activity mode:
 - Slice 4 built before slice 3 was verified — slice 3's config is committed and pushed, but its live check waits for the learner to create the Vercel project; building continued rather than idling.
 - Engine gained two parasite rules found while tuning — merging dots closer than 7 px (ring forms split in two were double-counted) and a darkness limit (pale diffuse purple spots were false alarms). Held-out result: WBC 98% precision / 88% recall; parasites 63% / 53%; patient densities +0.4%, +4%, −27%, but a low-parasitaemia patient is overestimated ~4.7×; shown openly on the accuracy screen.
 - Tuning, evaluation and sample files now use app-like images (1600 px + JPEG quality 95), and the page sends already-small photos untouched — the browser test showed JPEG re-compression erasing ~30% of the tiny parasite dots, so numbers measured on pristine images would not match what the app sees.
+- `vercel.json` switched to explicit `builds` + `routes` (Python builder for `app.py`, static builder for `public/`) — the first deploy failed on the `functions` key and zero-config detection served nothing (404 everywhere). Live site https://malariascope-two.vercel.app verified: same analysis output as local, full sample slide reaches 32,995 parasites/µL as locally.
