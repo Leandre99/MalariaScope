@@ -175,3 +175,8 @@ malariascope/
 - **Implementation details derived by the agent:** 1600 px working resolution, remove-on-click as the default tool, tuning/held-out patient split.
 - **Learner uncertainty discussed:** "Je n'ai pas de microscope — en quoi la plateforme va servir ?" Clarified: the product is for lab technicians who have microscopes; the demo uses real expert-annotated smartphone-microscope photos, which also make the accuracy comparison possible.
 - **Open — to check at the start of the build:** the annotation file format; whether one held-out patient has enough fields to reach 200 WBC in sample mode (if not, the sample stops at "Keep counting" and the video explains it, or we pick a richer patient); FastAPI + OpenCV working on Vercel.
+
+## Sharing
+- Public repository: https://github.com/Leandre99/MalariaScope (MIT licence detected by GitHub; `devpost/learner-profile.md` is git-ignored and was never committed).
+- Live app: https://malariascope-two.vercel.app
+- Demo video: _to be added by the learner (YouTube or Vimeo, public, under 3 minutes)._

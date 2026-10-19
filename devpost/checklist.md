@@ -93,13 +93,13 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
 ## Code Tour and App Map
 
 - [x] Learning activity complete — brief evidence-based recap with a reference code route (the learner asked to move straight on; route not toured live)
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
+- [x] Optional edit and transfer reflection addressed — offered with the recap; learner moved on to shipping without trying them
 - [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
 Activity and evidence: Recap of one action (confirming a field) through real code, plus the held-out evaluation / JPEG re-compression discovery as the reusable practice (`tools/split.py`, `tools/annotations.py > load_image`, browser vs evaluation both 32,995/µL).
 Route and stops: Reference route only — `public/app.js > analyse`, `malariascope/analysis.py > analyze / detect_wbc / detect_parasites`, `public/protocol.js > guidance` (+ `app.js > guidanceText`).
-Edit outcome: Offered with the recap (pointers to `public/i18n.js`); not yet tried.
-Reflection: Offered with the recap.
+Edit outcome: Offered with the recap (pointers to `public/i18n.js`); declined (moved on to shipping).
+Reflection: Offered with the recap; not answered.
 Activity mode: Recap with static reference route (app map checked in the browser pane).
 
 ## Revisions
