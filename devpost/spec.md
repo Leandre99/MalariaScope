@@ -132,6 +132,7 @@ malariascope/
 │   ├── styles.css            # look & feel + print styles
 │   ├── app.js                # screens, upload, canvas marks, corrections, report, evaluation
 │   ├── protocol.js           # WHO counting rule + density (pure functions)
+│   ├── i18n.js               # English/French interface text + language switch
 │   ├── samples/              # one held-out patient's fields + manifest.json (sample mode)
 │   └── evaluation/           # evaluation.json + failure example images
 ├── tools/                    # offline scripts: fetch, parse, tune, evaluate, make samples

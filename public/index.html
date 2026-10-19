@@ -10,29 +10,30 @@
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" id="brand" type="button" aria-label="MalariaScope home">
+    <button class="brand" id="brand" type="button" data-i18n-aria="nav.home" aria-label="MalariaScope home">
       <span class="brand-mark" aria-hidden="true"></span>MalariaScope
     </button>
     <span class="topbar-ref" id="topbar-ref"></span>
-    <button class="link" id="nav-accuracy" type="button">How accurate is it?</button>
+    <button class="link" id="nav-accuracy" type="button" data-i18n="nav.accuracy">How accurate is it?</button>
+    <button class="lang" id="lang-btn" type="button" data-i18n="lang.switch" data-i18n-aria="lang.switchAria">Français</button>
   </header>
 
   <main>
     <!-- Start screen -->
     <section class="screen" id="screen-start" data-screen="start">
       <div class="start-card">
-        <h1>Count malaria parasites, field by field.</h1>
-        <p class="lead">Photograph each field of a Giemsa-stained thick smear through the eyepiece. MalariaScope marks white blood cells and parasites, keeps the WHO count, and tells you when you have counted enough.</p>
+        <h1 data-i18n="start.title">Count malaria parasites, field by field.</h1>
+        <p class="lead" data-i18n="start.lead"></p>
         <form id="start-form" class="start-form" autocomplete="off">
-          <label for="slide-ref">Slide reference</label>
-          <input id="slide-ref" name="slide-ref" placeholder="e.g. SLIDE-0142" maxlength="40" required>
-          <p class="hint">Use a lab reference only — no patient names.</p>
-          <button class="btn primary" id="start-btn" type="submit" disabled>Start counting</button>
+          <label for="slide-ref" data-i18n="start.refLabel">Slide reference</label>
+          <input id="slide-ref" name="slide-ref" data-i18n-placeholder="start.refPlaceholder" maxlength="40" required>
+          <p class="hint" data-i18n="start.refHint"></p>
+          <button class="btn primary" id="start-btn" type="submit" disabled data-i18n="start.button">Start counting</button>
         </form>
-        <div class="or"><span>or</span></div>
-        <button class="btn secondary" id="sample-btn" type="button">Try a sample slide</button>
-        <p class="hint">Real smartphone-microscope photos from a public NLM dataset.</p>
-        <p class="disclaimer">Counting aid only. Not a diagnosis. A trained technician reviews every count.</p>
+        <div class="or"><span data-i18n="start.or">or</span></div>
+        <button class="btn secondary" id="sample-btn" type="button" data-i18n="start.sample">Try a sample slide</button>
+        <p class="hint" data-i18n="start.sampleHint"></p>
+        <p class="disclaimer" data-i18n="disclaimer"></p>
       </div>
     </section>
 
@@ -43,17 +44,17 @@
           <div class="dropzone" id="dropzone">
             <canvas id="field-canvas" hidden></canvas>
             <div class="drop-empty" id="drop-empty">
-              <p class="drop-title" id="drop-title">Upload your first field</p>
-              <p class="hint">Drop a photo here or choose a file.</p>
-              <button class="btn primary" id="pick-btn" type="button">Choose photo</button>
-              <button class="btn primary" id="next-sample-btn" type="button" hidden>Next sample field</button>
+              <p class="drop-title" id="drop-title"></p>
+              <p class="hint" data-i18n="count.dropHint"></p>
+              <button class="btn primary" id="pick-btn" type="button" data-i18n="count.choose">Choose photo</button>
+              <button class="btn primary" id="next-sample-btn" type="button" hidden data-i18n="count.nextSample">Next sample field</button>
             </div>
-            <div class="busy" id="busy" hidden><span class="spinner" aria-hidden="true"></span>Analysing…</div>
+            <div class="busy" id="busy" hidden><span class="spinner" aria-hidden="true"></span><span data-i18n="count.analysing">Analysing…</span></div>
           </div>
           <input id="file-input" type="file" accept="image/*" hidden>
-          <div class="legend" aria-label="Legend">
-            <span><i class="dot wbc"></i>White blood cell</span>
-            <span><i class="dot par"></i>Parasite</span>
+          <div class="legend" data-i18n-aria="legend.aria">
+            <span><i class="dot wbc"></i><span data-i18n="legend.wbc">White blood cell</span></span>
+            <span><i class="dot par"></i><span data-i18n="legend.par">Parasite</span></span>
           </div>
           <p class="error" id="field-error" role="alert" hidden></p>
         </div>
@@ -61,51 +62,51 @@
         <aside class="panel">
           <div class="progress-block">
             <div class="progress-head">
-              <span class="label">White blood cells</span>
+              <span class="label" data-i18n="panel.wbc">White blood cells</span>
               <span class="big" id="wbc-progress">0 / 200</span>
             </div>
             <div class="bar"><div class="bar-fill" id="wbc-bar"></div></div>
           </div>
           <div class="stats">
-            <div><span class="label">Parasites</span><span class="big" id="par-total">0</span></div>
-            <div><span class="label">Fields</span><span class="big" id="fields-total">0</span></div>
+            <div><span class="label" data-i18n="panel.parasites">Parasites</span><span class="big" id="par-total">0</span></div>
+            <div><span class="label" data-i18n="panel.fields">Fields</span><span class="big" id="fields-total">0</span></div>
           </div>
-          <p class="guidance" id="guidance">Upload your first field.</p>
+          <p class="guidance" id="guidance"></p>
 
           <div class="field-box" id="field-box" hidden>
             <div class="field-head">
-              <span class="label">This field</span>
+              <span class="label" data-i18n="panel.thisField">This field</span>
               <span class="badge" id="quality-badge"></span>
             </div>
             <div class="field-counts">
-              <span><i class="dot wbc"></i><b id="field-wbc">0</b> WBC</span>
-              <span><i class="dot par"></i><b id="field-par">0</b> parasites</span>
+              <span><i class="dot wbc"></i><b id="field-wbc">0</b> <span data-i18n="panel.wbcUnit">WBC</span></span>
+              <span><i class="dot par"></i><b id="field-par">0</b> <span data-i18n="panel.parUnit">parasites</span></span>
             </div>
             <div class="flag" id="flag" hidden>
               <p id="flag-text"></p>
               <div class="row">
-                <button class="btn small" id="retake-btn" type="button">Retake</button>
-                <button class="btn small secondary" id="use-anyway-btn" type="button">Use anyway</button>
+                <button class="btn small" id="retake-btn" type="button" data-i18n="panel.retake">Retake</button>
+                <button class="btn small secondary" id="use-anyway-btn" type="button" data-i18n="panel.useAnyway">Use anyway</button>
               </div>
             </div>
-            <div class="tools" id="tools" role="group" aria-label="Edit marks">
-              <span class="label">Tap a mark to remove it, or add:</span>
+            <div class="tools" id="tools" role="group" data-i18n-aria="panel.toolsAria">
+              <span class="label" data-i18n="panel.toolsHint">Tap a mark to remove it, or add:</span>
               <div class="row">
-                <button class="tool" id="tool-par" type="button" aria-pressed="false"><i class="dot par"></i>Add parasite</button>
-                <button class="tool" id="tool-wbc" type="button" aria-pressed="false"><i class="dot wbc"></i>Add WBC</button>
+                <button class="tool" id="tool-par" type="button" aria-pressed="false"><i class="dot par"></i><span data-i18n="panel.addPar">Add parasite</span></button>
+                <button class="tool" id="tool-wbc" type="button" aria-pressed="false"><i class="dot wbc"></i><span data-i18n="panel.addWbc">Add WBC</span></button>
               </div>
             </div>
             <div class="row">
-              <button class="btn primary" id="confirm-btn" type="button">Confirm field</button>
-              <button class="btn ghost" id="discard-btn" type="button">Discard field</button>
+              <button class="btn primary" id="confirm-btn" type="button" data-i18n="panel.confirm">Confirm field</button>
+              <button class="btn ghost" id="discard-btn" type="button" data-i18n="panel.discard">Discard field</button>
             </div>
           </div>
 
-          <button class="btn primary wide" id="result-btn" type="button" hidden>See result</button>
-          <button class="btn ghost wide" id="new-slide-btn" type="button">New slide</button>
+          <button class="btn primary wide" id="result-btn" type="button" hidden data-i18n="panel.result">See result</button>
+          <button class="btn ghost wide" id="new-slide-btn" type="button" data-i18n="panel.newSlide">New slide</button>
         </aside>
       </div>
-      <div class="thumbs" id="thumbs" aria-label="Confirmed fields"></div>
+      <div class="thumbs" id="thumbs" data-i18n-aria="thumbs.aria"></div>
     </section>
 
     <!-- Result screen -->
@@ -113,34 +114,34 @@
       <article class="report" id="report">
         <header class="report-head">
           <div>
-            <p class="label">MalariaScope count report</p>
+            <p class="label" data-i18n="report.kicker">MalariaScope count report</p>
             <h1 id="r-ref">—</h1>
             <p class="muted" id="r-date"></p>
           </div>
-          <span class="status preliminary" id="r-status">Preliminary</span>
+          <span class="status preliminary" id="r-status"></span>
         </header>
         <div class="density">
-          <span class="label">Parasite density</span>
+          <span class="label" data-i18n="report.density">Parasite density</span>
           <p class="density-value" id="r-density">—</p>
           <p class="formula" id="r-formula"></p>
         </div>
         <div class="stats three">
-          <div><span class="label">Fields examined</span><span class="big" id="r-fields">0</span></div>
-          <div><span class="label">WBC counted</span><span class="big" id="r-wbc">0</span></div>
-          <div><span class="label">Parasites counted</span><span class="big" id="r-par">0</span></div>
+          <div><span class="label" data-i18n="report.fields">Fields examined</span><span class="big" id="r-fields">0</span></div>
+          <div><span class="label" data-i18n="report.wbc">WBC counted</span><span class="big" id="r-wbc">0</span></div>
+          <div><span class="label" data-i18n="report.par">Parasites counted</span><span class="big" id="r-par">0</span></div>
         </div>
         <table class="table" id="r-table">
-          <thead><tr><th>Field</th><th>WBC</th><th>Parasites</th><th>Note</th></tr></thead>
+          <thead><tr><th data-i18n="report.thField">Field</th><th data-i18n="report.thWbc">WBC</th><th data-i18n="report.thPar">Parasites</th><th data-i18n="report.thNote">Note</th></tr></thead>
           <tbody></tbody>
         </table>
         <label class="check no-print">
-          <input type="checkbox" id="review-check"> I have reviewed these counts
+          <input type="checkbox" id="review-check"> <span data-i18n="report.check">I have reviewed these counts</span>
         </label>
-        <p class="disclaimer">Counting aid only. Not a diagnosis. Method: WHO thick-film count against WBC, assuming 8,000 WBC/µL.</p>
+        <p class="disclaimer" data-i18n="report.method"></p>
         <div class="row no-print">
-          <button class="btn primary" id="print-btn" type="button">Print report</button>
-          <button class="btn ghost" id="back-btn" type="button">Back to counting</button>
-          <button class="btn ghost" id="result-new-btn" type="button">New slide</button>
+          <button class="btn primary" id="print-btn" type="button" data-i18n="report.print">Print report</button>
+          <button class="btn ghost" id="back-btn" type="button" data-i18n="report.back">Back to counting</button>
+          <button class="btn ghost" id="result-new-btn" type="button" data-i18n="panel.newSlide">New slide</button>
         </div>
       </article>
     </section>
@@ -148,8 +149,8 @@
     <!-- Evaluation screen -->
     <section class="screen" id="screen-evaluation" data-screen="evaluation" hidden>
       <div class="eval" id="eval">
-        <h1>How accurate is it?</h1>
-        <p class="lead" id="eval-intro">Loading the evaluation…</p>
+        <h1 data-i18n="eval.title">How accurate is it?</h1>
+        <p class="lead" id="eval-intro"></p>
         <div id="eval-body"></div>
       </div>
     </section>
@@ -157,14 +158,15 @@
 
   <dialog id="confirm-dialog">
     <form method="dialog">
-      <p id="confirm-text">Discard the current count?</p>
+      <p id="confirm-text"></p>
       <div class="row">
-        <button class="btn ghost" value="cancel">Keep counting</button>
-        <button class="btn danger" value="ok">Discard</button>
+        <button class="btn ghost" value="cancel" data-i18n="dialog.keep">Keep counting</button>
+        <button class="btn danger" value="ok" data-i18n="dialog.discard">Discard</button>
       </div>
     </form>
   </dialog>
 
+  <script src="i18n.js"></script>
   <script src="protocol.js"></script>
   <script src="app.js"></script>
 </body>

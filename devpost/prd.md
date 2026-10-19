@@ -44,7 +44,7 @@ Direction delegated to the agent by the learner ("fait ce qui est le mieux adapt
 - Marks: **blue** for white blood cells, **red** for parasites — high contrast against the purple/pink stain, consistent everywhere (image, legend, counters).
 - Clean sans-serif type; counters and the final density in large, bold numerals readable at arm's length.
 - Generous spacing, big touch targets (usable with gloves on a phone).
-- Interface language: English (for judges). French is deferred.
+- Interface language: English and French, with a switch in the top bar (added at final review — the learner asked for a language option). The choice is remembered in the browser; the first visit follows the browser's language.
 
 ## Features and Behavior
 
@@ -101,7 +101,7 @@ Implements the WHO thick-film method: count parasites against WBCs, assume 8,000
 ## Product Decisions
 - Keep MalariaScope over simpler ideas — the learner wants a globally important problem ("pense problème dans le monde").
 - Demo with public, expert-annotated smartphone-microscope images — the learner has no microscope; expert annotations also enable the accuracy comparison.
-- English interface — submission and judges are English-speaking.
+- English and French interface with a switch — English for the judges, French for technicians in Benin (learner request at final review).
 - Human always validates (review checkbox, "counting aid only" wording) — from `scope.md > Explicitly Cut` (no diagnosis).
 - Screens, correction method, stopping-rule wording and look & feel were **delegated by the learner to the agent** ("je te laisse champ libre") and accepted at review.
 
@@ -117,7 +117,7 @@ Start screen with sample mode; field upload; quality check; automatic WBC + para
 - Offline phone app for clinics without internet.
 - Species identification and thin-smear parasitaemia (%).
 - A trained deep-learning detector for higher accuracy.
-- French and Fon interface.
+- Fon interface.
 - WHO "100 fields" rule to formally report a negative slide.
 
 ## Non-Goals

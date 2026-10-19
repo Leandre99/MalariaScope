@@ -86,6 +86,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
 
 ## Final Review
 
+- [x] Language switch (English / French) in the top bar, all screens including report and accuracy page — learner request; verified in the browser in both languages, live switch mid-count, phone width.
 - [ ] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
@@ -107,3 +108,4 @@ Activity mode:
 - Engine gained two parasite rules found while tuning — merging dots closer than 7 px (ring forms split in two were double-counted) and a darkness limit (pale diffuse purple spots were false alarms). Held-out result: WBC 98% precision / 88% recall; parasites 63% / 53%; patient densities +0.4%, +4%, −27%, but a low-parasitaemia patient is overestimated ~4.7×; shown openly on the accuracy screen.
 - Tuning, evaluation and sample files now use app-like images (1600 px + JPEG quality 95), and the page sends already-small photos untouched — the browser test showed JPEG re-compression erasing ~30% of the tiny parasite dots, so numbers measured on pristine images would not match what the app sees.
 - `vercel.json` switched to explicit `builds` + `routes` (Python builder for `app.py`, static builder for `public/`) — the first deploy failed on the `functions` key and zero-config detection served nothing (404 everywhere). Live site https://malariascope-two.vercel.app verified: same analysis output as local, full sample slide reaches 32,995 parasites/µL as locally.
+- PRD/spec updated: French interface moved from "later" into the build with an EN/FR switch (`public/i18n.js`), at the learner's request during final review.

@@ -1,6 +1,18 @@
 {
-  "TF7_C49P10/20170607_153736": "Missed parasites. Bluish, pale stain: many parasites are faint and smaller than the dots MalariaScope was tuned on, so most of them are missed, and two lightly stained white cells on the right are missed too. The technician would need to add marks here.",
-  "TF7_C49P10/20170607_153049": "Missed parasites. Same patient and same pale bluish stain: faint parasites are under-detected and a white cell next to another is missed. Stain intensity varies between slides; a trained detector or per-slide colour calibration would help.",
-  "TF63_CS25/20170817_102909": "False alarms. Fine dark specks of stain precipitate are marked as parasites, a black debris blob (bottom) is marked as a white cell, and one white cell is split into two. On slides with few real parasites this kind of error dominates, which is why a low-parasite patient's density is overestimated (see table above).",
-  "TF31_Sc440/20170724_170503": "Few real parasites, lots of pink granular debris and platelets. MalariaScope marks the debris as parasites."
+  "TF7_C49P10/20170607_153736": {
+    "en": "Missed parasites. Bluish, pale stain: many parasites are faint and smaller than the dots MalariaScope was tuned on, so most of them are missed, and two lightly stained white cells on the right are missed too. The technician would need to add marks here.",
+    "fr": "Parasites manqués. Coloration pâle et bleutée : beaucoup de parasites sont faibles et plus petits que les points sur lesquels MalariaScope a été réglé, donc la plupart sont manqués, ainsi que deux globules blancs peu colorés à droite. Le technicien devrait ajouter des marques ici."
+  },
+  "TF7_C49P10/20170607_153049": {
+    "en": "Missed parasites. Same patient and same pale bluish stain: faint parasites are under-detected and a white cell next to another is missed. Stain intensity varies between slides; a trained detector or per-slide colour calibration would help.",
+    "fr": "Parasites manqués. Même patient, même coloration pâle et bleutée : les parasites faibles sont sous-détectés et un globule blanc collé à un autre est manqué. L'intensité de la coloration varie d'une lame à l'autre ; un détecteur entraîné ou un étalonnage des couleurs par lame aiderait."
+  },
+  "TF63_CS25/20170817_102909": {
+    "en": "False alarms. Fine dark specks of stain precipitate are marked as parasites, a black debris blob (bottom) is marked as a white cell, and one white cell is split into two. On slides with few real parasites this kind of error dominates, which is why a low-parasite patient's density is overestimated (see table above).",
+    "fr": "Fausses alertes. De fins dépôts sombres de colorant sont marqués comme parasites, un débris noir (en bas) est marqué comme globule blanc, et un globule blanc est compté deux fois. Sur les lames pauvres en vrais parasites, ce type d'erreur domine, d'où la surestimation de la densité d'un patient peu parasité (voir le tableau ci-dessus)."
+  },
+  "TF31_Sc440/20170724_170503": {
+    "en": "Few real parasites, lots of pink granular debris and platelets. MalariaScope marks the debris as parasites.",
+    "fr": "Peu de vrais parasites, beaucoup de débris granuleux roses et de plaquettes. MalariaScope marque les débris comme des parasites."
+  }
 }

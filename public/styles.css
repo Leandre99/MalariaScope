@@ -45,6 +45,11 @@ p { margin: 0 0 .75rem; }
 .topbar-ref { color: var(--muted); font-variant-numeric: tabular-nums; }
 .link { margin-left: auto; background: none; border: 0; color: var(--accent); font: 600 .95rem var(--font); cursor: pointer; padding: .5rem; }
 .link:hover { text-decoration: underline; }
+.lang {
+  min-height: 36px; padding: .3rem .75rem; border-radius: 99px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--text); font: 600 .9rem var(--font); cursor: pointer;
+}
+.lang:hover { border-color: var(--accent); color: var(--accent); }
 
 main { padding: 1.25rem; max-width: 1280px; margin: 0 auto; }
 

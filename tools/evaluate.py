@@ -48,7 +48,7 @@ def draw_comparison(img, res, truth, path):
 
 def main():
     params = load_params()
-    notes = json.loads(NOTES.read_text()) if NOTES.exists() else {}
+    notes = json.loads(NOTES.read_text(encoding="utf-8")) if NOTES.exists() else {}  # {id: {"en": ..., "fr": ...}}
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     rows, patients, cache = [], [], {}
     for patient, paths in all_images(HELD_OUT).items():

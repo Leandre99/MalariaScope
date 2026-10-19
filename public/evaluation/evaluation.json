@@ -1927,7 +1927,10 @@
     "wbc": 8,
     "parasites": 49
    },
-   "note": "Missed parasites. Bluish, pale stain: many parasites are faint and smaller than the dots MalariaScope was tuned on, so most of them are missed, and two lightly stained white cells on the right are missed too. The technician would need to add marks here."
+   "note": {
+    "en": "Missed parasites. Bluish, pale stain: many parasites are faint and smaller than the dots MalariaScope was tuned on, so most of them are missed, and two lightly stained white cells on the right are missed too. The technician would need to add marks here.",
+    "fr": "Parasites manqu\u00e9s. Coloration p\u00e2le et bleut\u00e9e : beaucoup de parasites sont faibles et plus petits que les points sur lesquels MalariaScope a \u00e9t\u00e9 r\u00e9gl\u00e9, donc la plupart sont manqu\u00e9s, ainsi que deux globules blancs peu color\u00e9s \u00e0 droite. Le technicien devrait ajouter des marques ici."
+   }
   },
   {
    "id": "TF7_C49P10/20170607_153049",
@@ -1940,7 +1943,10 @@
     "wbc": 10,
     "parasites": 53
    },
-   "note": "Missed parasites. Same patient and same pale bluish stain: faint parasites are under-detected and a white cell next to another is missed. Stain intensity varies between slides; a trained detector or per-slide colour calibration would help."
+   "note": {
+    "en": "Missed parasites. Same patient and same pale bluish stain: faint parasites are under-detected and a white cell next to another is missed. Stain intensity varies between slides; a trained detector or per-slide colour calibration would help.",
+    "fr": "Parasites manqu\u00e9s. M\u00eame patient, m\u00eame coloration p\u00e2le et bleut\u00e9e : les parasites faibles sont sous-d\u00e9tect\u00e9s et un globule blanc coll\u00e9 \u00e0 un autre est manqu\u00e9. L'intensit\u00e9 de la coloration varie d'une lame \u00e0 l'autre ; un d\u00e9tecteur entra\u00een\u00e9 ou un \u00e9talonnage des couleurs par lame aiderait."
+   }
   },
   {
    "id": "TF63_CS25/20170817_102909",
@@ -1953,7 +1959,10 @@
     "wbc": 11,
     "parasites": 102
    },
-   "note": "False alarms. Fine dark specks of stain precipitate are marked as parasites, a black debris blob (bottom) is marked as a white cell, and one white cell is split into two. On slides with few real parasites this kind of error dominates, which is why a low-parasite patient's density is overestimated (see table above)."
+   "note": {
+    "en": "False alarms. Fine dark specks of stain precipitate are marked as parasites, a black debris blob (bottom) is marked as a white cell, and one white cell is split into two. On slides with few real parasites this kind of error dominates, which is why a low-parasite patient's density is overestimated (see table above).",
+    "fr": "Fausses alertes. De fins d\u00e9p\u00f4ts sombres de colorant sont marqu\u00e9s comme parasites, un d\u00e9bris noir (en bas) est marqu\u00e9 comme globule blanc, et un globule blanc est compt\u00e9 deux fois. Sur les lames pauvres en vrais parasites, ce type d'erreur domine, d'o\u00f9 la surestimation de la densit\u00e9 d'un patient peu parasit\u00e9 (voir le tableau ci-dessus)."
+   }
   }
  ]
 }

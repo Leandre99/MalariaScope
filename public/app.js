@@ -8,6 +8,7 @@
   var WORK_SIZE = 1600;           // must match malariascope/analysis.py
   var COLORS = { wbc: "#2563EB", par: "#DC2626" };
   var $ = function (id) { return document.getElementById(id); };
+  var t = I18n.t;
 
   var state = {
     session: null,      // Protocol session
@@ -93,7 +94,7 @@
   function handleFile(file) {
     showError("");
     if (!file.type || file.type.indexOf("image/") !== 0) {
-      showError("This file isn't an image we can read.");
+      showError(t("err.notImage"));
       return;
     }
     setBusy(true);
@@ -101,9 +102,7 @@
       .catch(function () { throw new Error("not_an_image"); })
       .then(analyse)
       .catch(function (err) {
-        showError(err.message === "not_an_image"
-          ? "This file isn't an image we can read."
-          : "Couldn't reach the analyser — check the connection and try again.");
+        showError(err.message === "not_an_image" ? t("err.notImage") : t("err.network"));
       })
       .then(function () { setBusy(false); });
   }
@@ -152,9 +151,7 @@
       .then(loadAndResize)
       .then(analyse)
       .catch(function (err) {
-        showError(err.message === "samples_done"
-          ? "That was the last sample field."
-          : "Couldn't load the sample field — try again.");
+        showError(err.message === "samples_done" ? t("err.samplesDone") : t("err.sampleLoad"));
       })
       .then(function () { setBusy(false); });
   }
@@ -163,7 +160,7 @@
   $("sample-btn").addEventListener("click", function () {
     loadManifest().then(function (m) {
       startSession(m.reference, true);
-    }).catch(function () { alert("Sample slide unavailable."); });
+    }).catch(function () { alert(t("err.sampleUnavailable")); });
   });
 
   function setBusy(on) {
@@ -203,7 +200,7 @@
     $("field-box").hidden = !has;
     if (!has) {
       $("drop-title").textContent = state.session && state.session.fields.length
-        ? "Upload the next field" : "Upload your first field";
+        ? t("count.dropNext") : t("count.dropFirst");
       return;
     }
     draw();
@@ -212,17 +209,15 @@
     $("field-par").textContent = counted ? f.parasites.length : 0;
     var badge = $("quality-badge");
     if (f.quality.reason === "blur") {
-      badge.textContent = "Out of focus"; badge.className = "badge warn";
+      badge.textContent = t("quality.blur"); badge.className = "badge warn";
     } else if (f.quality.reason === "no_cells") {
-      badge.textContent = "No cells found"; badge.className = "badge warn";
+      badge.textContent = t("quality.noCells"); badge.className = "badge warn";
     } else {
-      badge.textContent = "Good photo"; badge.className = "badge";
+      badge.textContent = t("quality.good"); badge.className = "badge";
     }
     var blocked = f.flagged && !f.accepted;
     $("flag").hidden = !blocked;
-    $("flag-text").textContent = f.quality.reason === "blur"
-      ? "Out of focus — please refocus and retake. Nothing from this photo is counted."
-      : "No cells found — is this a thick smear field? Nothing from this photo is counted.";
+    $("flag-text").textContent = f.quality.reason === "blur" ? t("flag.blur") : t("flag.noCells");
     $("tools").hidden = blocked;
     canvas.style.cursor = blocked ? "default" : state.tool === "remove" ? "pointer" : "crosshair";
   }
@@ -234,9 +229,16 @@
     $("wbc-bar").style.width = Math.min(100, (100 * s.totals.wbc) / g.target) + "%";
     $("par-total").textContent = s.totals.parasites;
     $("fields-total").textContent = s.fields.length;
-    $("guidance").textContent = g.message;
+    $("guidance").textContent = guidanceText(s, g);
     $("guidance").classList.toggle("done", g.canFinish);
     $("result-btn").hidden = !g.canFinish;
+  }
+
+  // Protocol decides; the page words it in the current language.
+  function guidanceText(s, g) {
+    if (!s.fields.length) return t("guide.first");
+    if (g.canFinish) return t("guide.enough");
+    return g.extended ? t("guide.extend", { n: g.remainingWbc }) : t("guide.more", { n: g.remainingWbc });
   }
 
   // ---------- correcting marks ----------
@@ -305,7 +307,7 @@
       wbcCount: c.wbc,
       parasiteCount: c.parasites,
       flagged: f.flagged,
-      note: f.flagged ? (c.counted ? "Flagged, used anyway" : "Flagged, not counted") : "",
+      note: f.flagged ? (c.counted ? "note.usedAnyway" : "note.notCounted") : "",
     };
     state.session = Protocol.addField(state.session, field);
     addThumb(field);
@@ -325,8 +327,8 @@
     el.className = "thumb";
     el.innerHTML = '<img alt=""><span></span>';
     el.querySelector("img").src = field.thumbnailUrl;
-    el.querySelector("img").alt = "Field " + field.id;
-    el.querySelector("span").textContent = "#" + field.id + " · " + field.wbcCount + " WBC · " + field.parasiteCount + " P";
+    el.querySelector("img").alt = t("thumb.alt", { n: field.id });
+    el.querySelector("span").textContent = t("thumb.label", { n: field.id, wbc: field.wbcCount, par: field.parasiteCount });
     $("thumbs").appendChild(el);
   }
 
@@ -350,7 +352,7 @@
 
   function newSlide() {
     var go = unfinished() && !state.reviewed
-      ? askConfirm("Start a new slide? The current count (" + state.session.fields.length + " fields) will be cleared.")
+      ? askConfirm(t("dialog.newSlide", { n: state.session.fields.length }))
       : Promise.resolve(true);
     go.then(function (ok) {
       if (!ok) return;
@@ -367,10 +369,11 @@
   $("result-new-btn").addEventListener("click", newSlide);
 
   // ---------- result and report ----------
-  function fmt(n) { return n.toLocaleString("en-US"); }
+  function fmt(n) { return I18n.number(n); }
 
   $("result-btn").addEventListener("click", function () {
     state.reviewed = false;
+    state.resultAt = Date.now();
     $("review-check").checked = false;
     renderResult();
     show("result");
@@ -384,20 +387,18 @@
 
   function renderStatus() {
     var st = $("r-status");
-    st.textContent = state.reviewed ? "Reviewed by technician" : "Preliminary";
+    st.textContent = state.reviewed ? t("report.reviewed") : t("report.preliminary");
     st.className = "status " + (state.reviewed ? "reviewed" : "preliminary");
   }
 
   function renderResult() {
     var s = state.session;
     var d = Protocol.density(s);
-    $("r-ref").textContent = s.reference + (s.sample ? " (sample data)" : "");
-    $("r-date").textContent = new Date().toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" });
-    $("r-density").textContent = s.totals.parasites === 0
-      ? "No parasites seen in the fields examined"
-      : fmt(d) + " parasites/µL";
-    $("r-formula").textContent = s.totals.parasites + " parasites × " + fmt(Protocol.WBC_PER_UL) +
-      " ÷ " + s.totals.wbc + " WBC = " + (d === null ? "—" : fmt(d)) + " /µL";
+    $("r-ref").textContent = s.reference + (s.sample ? t("report.sample") : "");
+    $("r-date").textContent = new Date(state.resultAt || Date.now()).toLocaleString(I18n.locale(), { dateStyle: "medium", timeStyle: "short" });
+    $("r-density").textContent = s.totals.parasites === 0 ? t("report.none") : t("report.unit", { n: fmt(d) });
+    $("r-formula").textContent = t("report.formula", {
+      par: s.totals.parasites, k: fmt(Protocol.WBC_PER_UL), wbc: s.totals.wbc, d: d === null ? "—" : fmt(d) });
     $("r-fields").textContent = s.fields.length;
     $("r-wbc").textContent = s.totals.wbc;
     $("r-par").textContent = s.totals.parasites;
@@ -405,7 +406,7 @@
     body.innerHTML = "";
     s.fields.forEach(function (f) {
       var tr = document.createElement("tr");
-      [f.id, f.wbcCount, f.parasiteCount, f.note || ""].forEach(function (v) {
+      [f.id, f.wbcCount, f.parasiteCount, f.note ? t(f.note) : ""].forEach(function (v) {
         var td = document.createElement("td");
         td.textContent = v;
         tr.appendChild(td);
@@ -421,7 +422,7 @@
     loadEvaluation();
   });
 
-  function pct(x) { return x === null || x === undefined ? "—" : Math.round(x * 100) + "%"; }
+  function pct(x) { return x === null || x === undefined ? "—" : Math.round(x * 100) + " %".slice(I18n.lang === "fr" ? 0 : 1); }
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -454,78 +455,102 @@
     return wrap;
   }
 
-  var evalLoaded = false;
+  var evaluation = null;
   function loadEvaluation() {
-    if (evalLoaded) return;
+    if (evaluation) { renderEvaluation(); return; }
+    $("eval-intro").textContent = t("eval.loading");
     fetch("evaluation/evaluation.json").then(function (r) { return r.json(); }).then(function (ev) {
-      evalLoaded = true;
-      var s = ev.summary;
-      $("eval-intro").textContent =
-        "We tuned MalariaScope on " + ev.tuningPatients.length + " patients, then tested it on " +
-        ev.heldOutPatients.length + " other patients it had never seen (" + ev.images.length +
-        " fields). Every number below compares its automatic marks — before any human correction — with an expert's annotations.";
-      var body = $("eval-body");
-      body.innerHTML = "";
-
-      body.appendChild(el("h2", "", "White blood cells"));
-      var g1 = el("div", "metric-grid");
-      g1.appendChild(metric("Found by the expert", s.wbc.expertTotal));
-      g1.appendChild(metric("Recall", pct(s.wbc.recall), "share of expert WBCs MalariaScope also marked"));
-      g1.appendChild(metric("Precision", pct(s.wbc.precision), "share of MalariaScope's WBC marks that were real"));
-      g1.appendChild(metric("Average error per field", "±" + s.wbc.meanAbsCountError, "WBC"));
-      body.appendChild(g1);
-
-      body.appendChild(el("h2", "", "Parasites"));
-      var g2 = el("div", "metric-grid");
-      g2.appendChild(metric("Found by the expert", s.parasites.expertTotal));
-      g2.appendChild(metric("Recall", pct(s.parasites.recall), "share of expert parasites MalariaScope also marked"));
-      g2.appendChild(metric("Precision", pct(s.parasites.precision), "share of MalariaScope's parasite marks that were real"));
-      g2.appendChild(metric("Average error per field", "±" + s.parasites.meanAbsCountError, "parasites"));
-      body.appendChild(g2);
-
-      body.appendChild(el("h2", "", "Parasite density per patient (all fields, no correction)"));
-      body.appendChild(table(["Patient", "Fields", "Expert /µL", "MalariaScope /µL", "Difference"],
-        ev.patients.map(function (p) {
-          var diff = p.expert.density ? Math.round(100 * (p.ours.density - p.expert.density) / p.expert.density) : null;
-          return [p.patient, p.fields, fmt(p.expert.density), fmt(p.ours.density), diff === null ? "—" : (diff > 0 ? "+" : "") + diff + "%"];
-        })));
-
-      body.appendChild(el("p", "muted",
-        "Read this table with care: on slides with many parasites the automatic count lands close to the expert's, " +
-        "but on a slide with few parasites the false alarms (debris, platelets) outnumber the real parasites and the density " +
-        "is overestimated several times over. That is why the technician reviews and corrects every field before the result is used."));
-
-      body.appendChild(el("h2", "", "Where it fails"));
-      body.appendChild(el("p", "muted", "Circles are MalariaScope's marks (blue = WBC, red = parasite); yellow crosses are the expert's. These are the fields with the largest parasite-count errors."));
-      var fl = el("div", "failures");
-      ev.failures.forEach(function (f) {
-        var card = el("figure", "failure");
-        card.style.margin = "0";
-        var img = el("img"); img.src = f.image; img.alt = "Failure example " + f.id; img.loading = "lazy";
-        card.appendChild(img);
-        var cap = el("p");
-        cap.appendChild(el("strong", "", "Expert " + f.expert.parasites + " parasites · MalariaScope " + f.ours.parasites + ". "));
-        cap.appendChild(document.createTextNode(f.note || ""));
-        card.appendChild(cap);
-        fl.appendChild(card);
-      });
-      body.appendChild(fl);
-
-      body.appendChild(el("h2", "", "Every test field"));
-      body.appendChild(table(["Field", "Expert WBC", "Our WBC", "Expert parasites", "Our parasites", "Parasite recall", "Parasite precision"],
-        ev.images.map(function (r) {
-          return [r.id, r.expert.wbc, r.ours.wbc, r.expert.parasites, r.ours.parasites, pct(r.recall.parasites), pct(r.precision.parasites)];
-        })));
-
-      var src = el("p", "hint", "Data: " + ev.dataset + ". " + ev.citation + ". Matching radius: " +
-        ev.matchRadiusPx.wbc + " px (WBC) and " + ev.matchRadiusPx.parasites + " px (parasites) on " + ev.matchRadiusPx.imageLongSide + " px images.");
-      src.style.marginTop = "1.5rem";
-      body.appendChild(src);
+      evaluation = ev;
+      renderEvaluation();
     }).catch(function () {
-      $("eval-intro").textContent = "The evaluation results couldn't be loaded.";
+      $("eval-intro").textContent = t("eval.error");
     });
   }
 
+  function renderEvaluation() {
+    var ev = evaluation;
+    if (!ev) return;
+    var s = ev.summary;
+    $("eval-intro").textContent = t("eval.intro",
+      { tune: ev.tuningPatients.length, held: ev.heldOutPatients.length, fields: ev.images.length });
+    var body = $("eval-body");
+    body.innerHTML = "";
+
+    body.appendChild(el("h2", "", t("eval.wbc")));
+    var g1 = el("div", "metric-grid");
+    g1.appendChild(metric(t("eval.found"), fmt(s.wbc.expertTotal)));
+    g1.appendChild(metric(t("eval.recall"), pct(s.wbc.recall), t("eval.recallWbc")));
+    g1.appendChild(metric(t("eval.precision"), pct(s.wbc.precision), t("eval.precisionWbc")));
+    g1.appendChild(metric(t("eval.err"), "±" + fmt(s.wbc.meanAbsCountError), t("panel.wbcUnit")));
+    body.appendChild(g1);
+
+    body.appendChild(el("h2", "", t("eval.par")));
+    var g2 = el("div", "metric-grid");
+    g2.appendChild(metric(t("eval.found"), fmt(s.parasites.expertTotal)));
+    g2.appendChild(metric(t("eval.recall"), pct(s.parasites.recall), t("eval.recallPar")));
+    g2.appendChild(metric(t("eval.precision"), pct(s.parasites.precision), t("eval.precisionPar")));
+    g2.appendChild(metric(t("eval.err"), "±" + fmt(s.parasites.meanAbsCountError), t("panel.parUnit")));
+    body.appendChild(g2);
+
+    body.appendChild(el("h2", "", t("eval.densityTitle")));
+    body.appendChild(table([t("eval.thPatient"), t("eval.thFields"), t("eval.thExpert"), t("eval.thOurs"), t("eval.thDiff")],
+      ev.patients.map(function (p) {
+        var diff = p.expert.density ? Math.round(100 * (p.ours.density - p.expert.density) / p.expert.density) : null;
+        return [p.patient, p.fields, fmt(p.expert.density), fmt(p.ours.density), diff === null ? "—" : (diff > 0 ? "+" : "") + diff + "%"];
+      })));
+    body.appendChild(el("p", "muted", t("eval.caution")));
+
+    body.appendChild(el("h2", "", t("eval.failTitle")));
+    body.appendChild(el("p", "muted", t("eval.failIntro")));
+    var fl = el("div", "failures");
+    ev.failures.forEach(function (f) {
+      var card = el("figure", "failure");
+      card.style.margin = "0";
+      var img = el("img"); img.src = f.image; img.alt = t("eval.failAlt", { id: f.id }); img.loading = "lazy";
+      card.appendChild(img);
+      var cap = el("p");
+      cap.appendChild(el("strong", "", t("eval.failCaption", { e: f.expert.parasites, o: f.ours.parasites })));
+      var note = typeof f.note === "string" ? f.note : (f.note && (f.note[I18n.lang] || f.note.en)) || "";
+      cap.appendChild(document.createTextNode(note));
+      card.appendChild(cap);
+      fl.appendChild(card);
+    });
+    body.appendChild(fl);
+
+    body.appendChild(el("h2", "", t("eval.allTitle")));
+    body.appendChild(table([t("eval.thField"), t("eval.thExpertWbc"), t("eval.thOurWbc"), t("eval.thExpertPar"),
+      t("eval.thOurPar"), t("eval.thRecall"), t("eval.thPrecision")],
+      ev.images.map(function (r) {
+        return [r.id, r.expert.wbc, r.ours.wbc, r.expert.parasites, r.ours.parasites, pct(r.recall.parasites), pct(r.precision.parasites)];
+      })));
+
+    var src = el("p", "hint", t("eval.source", {
+      dataset: ev.dataset, citation: ev.citation, rw: ev.matchRadiusPx.wbc,
+      rp: ev.matchRadiusPx.parasites, size: ev.matchRadiusPx.imageLongSide }));
+    src.style.marginTop = "1.5rem";
+    body.appendChild(src);
+  }
+
+  // ---------- language ----------
+  function renderLanguage() {
+    I18n.apply(document);
+    if (state.session) {
+      renderTotals();
+      renderField();
+      $("thumbs").innerHTML = "";
+      state.session.fields.forEach(addThumb);
+      if (!$("screen-result").hidden) renderResult();
+    } else {
+      renderField();
+    }
+    renderEvaluation();
+  }
+  $("lang-btn").addEventListener("click", function () {
+    I18n.setLang(I18n.lang === "fr" ? "en" : "fr");
+    renderLanguage();
+  });
+
   window.MalariaScope = { state: state, show: show };
+  renderLanguage();
   show("start");
 })();
