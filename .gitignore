@@ -1,0 +1,9 @@
+# Contexte personnel d apprentissage (Devpost Learn)
+/devpost/learner-profile.md
+
+# Identifiants locaux
+.env
+.env.*
+!.env.example
+
+node_modules/
