@@ -81,25 +81,25 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after slice 4 (WHO counting loop working end to end)
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Early usable behavior explored — not done as a separate pause: the learner chose to let the build run autonomously ("travaille en autodidacte"); their hands-on feedback came in the final session instead
+- [x] Final kick-the-tires exploration and feedback completed — learner tried the live site, asked for an English/French switch (done), then confirmed it works for them
 
 ## Final Review
 
 - [x] Language switch (English / French) in the top bar, all screens including report and accuracy page — learner request; verified in the browser in both languages, live switch mid-count, phone width.
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Final review complete — feedback resolved and learner confirms ready to ship ("I tested the site, it's good for me")
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
+- [x] Learning activity complete — brief evidence-based recap with a reference code route (the learner asked to move straight on; route not toured live)
 - [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence:
-Route and stops:
-Edit outcome:
-Reflection:
-Activity mode:
+Activity and evidence: Recap of one action (confirming a field) through real code, plus the held-out evaluation / JPEG re-compression discovery as the reusable practice (`tools/split.py`, `tools/annotations.py > load_image`, browser vs evaluation both 32,995/µL).
+Route and stops: Reference route only — `public/app.js > analyse`, `malariascope/analysis.py > analyze / detect_wbc / detect_parasites`, `public/protocol.js > guidance` (+ `app.js > guidanceText`).
+Edit outcome: Offered with the recap (pointers to `public/i18n.js`); not yet tried.
+Reflection: Offered with the recap.
+Activity mode: Recap with static reference route (app map checked in the browser pane).
 
 ## Revisions
 - Dataset layout differs from the spec's guess — images are `<patient>/<name>.jpg` and annotations `GT_updated/<patient>/<name>.txt` (parasites = circles, WBCs = single points); the photos carry an EXIF rotation while expert coordinates use the raw landscape pixel grid, so tools load images ignoring EXIF orientation. Remote-zip range reads worked, no full download needed. 10 patients fetched; 9 have ≥ 200 WBC across their fields, so sample mode can reach the WHO threshold.

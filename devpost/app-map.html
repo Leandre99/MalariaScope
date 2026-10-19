@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MalariaScope App Map</title>
+<style>
+  :root {
+    --bg: #F7F9FA; --surface: #FFFFFF; --text: #14213D; --muted: #5B6474; --line: #DDE3EA;
+    --accent: #0F766E; --accent-soft: #E6F3F1; --wbc: #2563EB; --par: #DC2626; --code-bg: #EEF2F5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0E141B; --surface: #151D27; --text: #E6EBF1; --muted: #9AA6B5; --line: #2A3542;
+      --accent: #2DD4BF; --accent-soft: #123A37; --wbc: #60A5FA; --par: #F87171; --code-bg: #1C2632;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 system-ui, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 3rem; }
+  h1 { font-size: 1.8rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.2rem; margin: 2rem 0 .75rem; }
+  p { margin: 0 0 .75rem; }
+  .muted { color: var(--muted); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: .75rem; }
+  .pieces { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .75rem; }
+  .pieces h3 { margin: 0 0 .3rem; font-size: 1rem; }
+  code { background: var(--code-bg); padding: .1rem .35rem; border-radius: 5px; font-size: .9em; word-break: break-word; }
+  pre { background: var(--code-bg); padding: .75rem 1rem; border-radius: 8px; overflow-x: auto; font-size: .85rem; margin: .5rem 0 0; }
+  .stop { display: grid; grid-template-columns: 2.2rem 1fr; gap: .75rem; }
+  .num { width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--accent); color: var(--surface); display: grid; place-items: center; font-weight: 700; }
+  details summary { cursor: pointer; font-weight: 600; color: var(--accent); margin-top: .4rem; }
+  details summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  ul { margin: .25rem 0 .5rem; padding-left: 1.2rem; }
+  li { margin: .25rem 0; }
+  svg { width: 100%; height: auto; display: block; }
+  .svg-box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .svg-text { fill: var(--text); font: 600 14px system-ui, sans-serif; }
+  .svg-sub { fill: var(--muted); font: 12px ui-monospace, Consolas, monospace; }
+  .svg-arrow { stroke: var(--accent); stroke-width: 2; fill: none; }
+  .svg-head { fill: var(--accent); }
+  .svg-label { fill: var(--accent); font: 600 12px system-ui, sans-serif; }
+  .tag { display: inline-block; font-size: .75rem; font-weight: 700; padding: .1rem .5rem; border-radius: 99px; background: var(--accent-soft); color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>MalariaScope App Map</h1>
+  <p class="muted">A pocket guide to how the app works and where to change things. Snapshot of commit <code>39b58ed</code> (19 Oct 2026); the code may have moved on since.</p>
+
+  <h2>What the app does</h2>
+  <p>A lab technician uploads one photo per microscope field of a thick blood smear. The app circles white blood cells (blue) and parasites (red), the technician corrects mistakes, and the app keeps the WHO running count until it can report parasites per µL.</p>
+  <div class="pieces">
+    <div class="card"><h3>The page</h3><p><code>public/</code>: screens, photo upload, drawing the circles, corrections, report. Keeps the slide in memory only.</p></div>
+    <div class="card"><h3>The analyser</h3><p><code>app.py</code> + <code>malariascope/analysis.py</code>: a small Python server that finds the cells in one photo with OpenCV.</p></div>
+    <div class="card"><h3>The WHO rule</h3><p><code>public/protocol.js</code>: decides "another field", "go to 500 WBC" or "enough", and computes the density.</p></div>
+    <div class="card"><h3>The proof</h3><p><code>tools/</code>: download the NLM images, tune thresholds on 6 patients, measure accuracy on 4 others.</p></div>
+  </div>
+
+  <h2>One action, end to end: confirming a field</h2>
+  <svg viewBox="0 0 860 220" role="img" aria-labelledby="flow-title flow-desc">
+    <title id="flow-title">Path of one field photo</title>
+    <desc id="flow-desc">The page sends the photo to the analyser, which returns cell positions; the page draws them, and on Confirm the WHO rule updates the totals and guidance.</desc>
+    <defs><marker id="h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="svg-head"/></marker></defs>
+    <rect class="svg-box" x="10" y="20" width="250" height="80" rx="10"/>
+    <text class="svg-text" x="28" y="52">1. Page sends the photo</text>
+    <text class="svg-sub" x="28" y="76">app.js · analyse()</text>
+    <rect class="svg-box" x="305" y="20" width="250" height="80" rx="10"/>
+    <text class="svg-text" x="323" y="52">2. OpenCV finds cells</text>
+    <text class="svg-sub" x="323" y="76">analysis.py · analyze()</text>
+    <rect class="svg-box" x="600" y="20" width="250" height="80" rx="10"/>
+    <text class="svg-text" x="618" y="52">3. Circles drawn</text>
+    <text class="svg-sub" x="618" y="76">app.js · draw()</text>
+    <rect class="svg-box" x="305" y="130" width="250" height="80" rx="10"/>
+    <text class="svg-text" x="323" y="162">4. Confirm → WHO rule</text>
+    <text class="svg-sub" x="323" y="186">protocol.js · guidance()</text>
+    <path class="svg-arrow" d="M260 60 H300" marker-end="url(#h)"/>
+    <text class="svg-label" x="262" y="50">JPEG</text>
+    <path class="svg-arrow" d="M555 60 H595" marker-end="url(#h)"/>
+    <text class="svg-label" x="560" y="50">JSON</text>
+    <path class="svg-arrow" d="M725 100 V170 H560" marker-end="url(#h)"/>
+    <text class="svg-label" x="572" y="192">technician corrects, confirms</text>
+  </svg>
+
+  <h2>Code route (3 stops)</h2>
+  <p><span class="tag">Reference route</span> Open the project in your editor and search for each anchor.</p>
+
+  <div class="card stop">
+    <div class="num">1</div>
+    <div>
+      <p><strong><code>public/app.js</code> → <code>function analyse(resized)</code></strong></p>
+      <p>When you upload a photo (or press "Next sample field"), the page shrinks it to 1600 px if needed and posts it to <code>/api/analyze</code>. The answer is a list of circle positions, stored as <code>state.current</code> and drawn on the canvas.</p>
+      <details><summary>Key lines</summary>
+<pre>form.append("image", resized.blob, "field.jpg");
+return fetch("/api/analyze", { method: "POST", body: form })</pre>
+      </details>
+    </div>
+  </div>
+
+  <div class="card stop">
+    <div class="num">2</div>
+    <div>
+      <p><strong><code>malariascope/analysis.py</code> → <code>def analyze</code>, then <code>def detect_wbc</code> and <code>def detect_parasites</code></strong></p>
+      <p>White blood cells are big, very saturated purple blobs. Parasites are tiny dark dots found with a "black-hat" filter, then filtered by size, roundness, colour and darkness, and merged when two pieces belong to one ring. The thresholds come from <code>malariascope/params.json</code>, written by <code>tools/tune.py</code>.</p>
+      <details><summary>Key lines</summary>
+<pre>wbc, wbc_blob = detect_wbc(hsv, mask, p)
+parasites = detect_parasites(img, hsv, mask, wbc_blob, p)</pre>
+      </details>
+    </div>
+  </div>
+
+  <div class="card stop">
+    <div class="num">3</div>
+    <div>
+      <p><strong><code>public/protocol.js</code> → <code>function guidance(session)</code></strong></p>
+      <p>After "Confirm field", the totals go through the WHO rule: under 200 WBC keep going; at 200 with 100+ parasites stop; with fewer than 100, extend to 500. <code>guidanceText()</code> in <code>app.js</code> turns that decision into the English or French message. Tested in <code>tests/protocol.test.mjs</code>.</p>
+      <details><summary>Key lines</summary>
+<pre>if (parasites &gt;= PARASITE_THRESHOLD) {
+  return { target: FIRST_TARGET, remainingWbc: 0, canFinish: true, ... };
+}</pre>
+      </details>
+    </div>
+  </div>
+
+  <h2>To change this, start here</h2>
+  <ul>
+    <li><strong>Any text on screen, in English or French</strong> → <code>public/i18n.js</code> (one key per sentence, same key in <code>en</code> and <code>fr</code>).</li>
+    <li><strong>Colours, spacing, phone layout</strong> → <code>public/styles.css</code> (colour variables at the top, phone rules under <code>@media (max-width: 800px)</code>).</li>
+    <li><strong>Circle colours on the photo</strong> → <code>COLORS</code> at the top of <code>public/app.js</code>.</li>
+    <li><strong>The WHO thresholds (200 / 500 WBC, 100 parasites, 8,000 WBC/µL)</strong> → constants at the top of <code>public/protocol.js</code>; rerun <code>node --test tests/protocol.test.mjs</code>.</li>
+    <li><strong>Detection sensitivity</strong> → <code>malariascope/params.json</code>, ideally by rerunning <code>tools/tune.py</code> then <code>tools/evaluate.py</code> so the accuracy page stays honest.</li>
+  </ul>
+
+  <h2>A practice to reuse</h2>
+  <div class="card">
+    <p><strong>Measure on data the tool never saw, in the same conditions as real use.</strong> Thresholds were tuned on 6 patients and judged on 4 others (<code>tools/split.py</code>). When the sample slide in the browser found far fewer parasites than the evaluation predicted, the cause was JPEG re-compression of tiny dots; tuning and evaluation were then redone on images compressed exactly like an upload (<code>tools/annotations.py → load_image</code>), and the browser and the evaluation agreed (32,995/µL in both). On any project with a "how good is it?" claim, keep a held-out set and check the number end to end through the real app, not only in a script.</p>
+  </div>
+
+  <h2>Run it again</h2>
+<pre>python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements-dev.txt
+uvicorn app:app --reload        # then open http://127.0.0.1:8000
+python -m pytest -q tests
+node --test tests/protocol.test.mjs</pre>
+  <p class="muted">Live version: https://malariascope-two.vercel.app</p>
+</main>
+</body>
+</html>
