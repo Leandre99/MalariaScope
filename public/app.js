@@ -7,6 +7,7 @@
 
   var WORK_SIZE = 1600;           // must match malariascope/analysis.py
   var COLORS = { wbc: "#2563EB", par: "#DC2626" };
+  var RING_LENGTH = 2 * Math.PI * 52;  // circumference of the WBC progress ring (r = 52)
   var $ = function (id) { return document.getElementById(id); };
   var t = I18n.t;
 
@@ -179,15 +180,20 @@
     canvas.height = f.height;
     ctx.drawImage(f.image, 0, 0, f.width, f.height);
     if (f.flagged && !f.accepted) return;
-    ctx.lineWidth = 2.5;
+    // The canvas is shown smaller than its pixels: keep rings ~2 px thick on screen.
+    var shown = canvas.clientWidth || f.width;
+    ringScale = Math.max(1, f.width / shown);
+    ctx.lineWidth = 2.2 * ringScale;
     ctx.strokeStyle = COLORS.wbc;
     f.wbc.forEach(function (m) { ring(m); });
     ctx.strokeStyle = COLORS.par;
     f.parasites.forEach(function (m) { ring(m); });
   }
+  var ringScale = 1;
+  window.addEventListener("resize", function () { if (state.current) draw(); });
   function ring(m) {
     ctx.beginPath();
-    ctx.arc(m.x, m.y, Math.max(m.r, 7), 0, Math.PI * 2);
+    ctx.arc(m.x, m.y, Math.max(m.r, 4 * ringScale), 0, Math.PI * 2);
     ctx.stroke();
   }
 
@@ -196,6 +202,7 @@
     var f = state.current;
     var has = !!f;
     canvas.hidden = !has;
+    $("quality-badge").hidden = !has;
     $("drop-empty").hidden = has;
     $("field-box").hidden = !has;
     if (!has) {
@@ -226,7 +233,9 @@
     var s = state.session;
     var g = Protocol.guidance(s);
     $("wbc-progress").textContent = s.totals.wbc + " / " + g.target;
-    $("wbc-bar").style.width = Math.min(100, (100 * s.totals.wbc) / g.target) + "%";
+    var ring = $("wbc-ring");
+    ring.style.strokeDashoffset = RING_LENGTH * (1 - Math.min(1, s.totals.wbc / g.target));
+    ring.classList.toggle("done", g.canFinish);
     $("par-total").textContent = s.totals.parasites;
     $("fields-total").textContent = s.fields.length;
     $("guidance").textContent = guidanceText(s, g);
@@ -431,10 +440,16 @@
     return e;
   }
 
-  function metric(label, value, sub) {
+  function metric(label, value, sub, share) {
     var m = el("div", "metric");
     m.appendChild(el("span", "label", label));
     m.appendChild(el("span", "big", value));
+    if (share !== undefined && share !== null) {
+      var bar = el("span", "meter"), fill = el("i");
+      fill.style.width = Math.round(share * 100) + "%";
+      bar.appendChild(fill);
+      m.appendChild(bar);
+    }
     if (sub) m.appendChild(el("span", "hint", sub));
     return m;
   }
@@ -479,16 +494,16 @@
     body.appendChild(el("h2", "", t("eval.wbc")));
     var g1 = el("div", "metric-grid");
     g1.appendChild(metric(t("eval.found"), fmt(s.wbc.expertTotal)));
-    g1.appendChild(metric(t("eval.recall"), pct(s.wbc.recall), t("eval.recallWbc")));
-    g1.appendChild(metric(t("eval.precision"), pct(s.wbc.precision), t("eval.precisionWbc")));
+    g1.appendChild(metric(t("eval.recall"), pct(s.wbc.recall), t("eval.recallWbc"), s.wbc.recall));
+    g1.appendChild(metric(t("eval.precision"), pct(s.wbc.precision), t("eval.precisionWbc"), s.wbc.precision));
     g1.appendChild(metric(t("eval.err"), "±" + fmt(s.wbc.meanAbsCountError), t("panel.wbcUnit")));
     body.appendChild(g1);
 
     body.appendChild(el("h2", "", t("eval.par")));
     var g2 = el("div", "metric-grid");
     g2.appendChild(metric(t("eval.found"), fmt(s.parasites.expertTotal)));
-    g2.appendChild(metric(t("eval.recall"), pct(s.parasites.recall), t("eval.recallPar")));
-    g2.appendChild(metric(t("eval.precision"), pct(s.parasites.precision), t("eval.precisionPar")));
+    g2.appendChild(metric(t("eval.recall"), pct(s.parasites.recall), t("eval.recallPar"), s.parasites.recall));
+    g2.appendChild(metric(t("eval.precision"), pct(s.parasites.precision), t("eval.precisionPar"), s.parasites.precision));
     g2.appendChild(metric(t("eval.err"), "±" + fmt(s.parasites.meanAbsCountError), t("panel.parUnit")));
     body.appendChild(g2);
 
@@ -498,7 +513,11 @@
         var diff = p.expert.density ? Math.round(100 * (p.ours.density - p.expert.density) / p.expert.density) : null;
         return [p.patient, p.fields, fmt(p.expert.density), fmt(p.ours.density), diff === null ? "—" : (diff > 0 ? "+" : "") + diff + "%"];
       })));
-    body.appendChild(el("p", "muted", t("eval.caution")));
+    var caution = el("div", "callout");
+    caution.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-warn"/></svg>';
+    caution.appendChild(el("p", "", t("eval.caution")));
+    caution.lastChild.style.margin = "0";
+    body.appendChild(caution);
 
     body.appendChild(el("h2", "", t("eval.failTitle")));
     body.appendChild(el("p", "muted", t("eval.failIntro")));
@@ -534,6 +553,7 @@
   // ---------- language ----------
   function renderLanguage() {
     I18n.apply(document);
+    $("hero-density").textContent = fmt(32995);  // sample-slide result shown on the start screen
     if (state.session) {
       renderTotals();
       renderField();

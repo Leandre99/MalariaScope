@@ -52,7 +52,7 @@ Learner agreed to the recommended stack at spec review ("oui").
 From `prd.md > Look and Feel`. Implemented as CSS custom properties in `public/styles.css`.
 
 - Colours: background `#F7F9FA`, surface `#FFFFFF`, text navy `#14213D`, muted text `#5B6474`, accent teal `#0F766E` (buttons, progress bar), WBC mark blue `#2563EB`, parasite mark red `#DC2626`, warning amber `#B45309`. Marks drawn as 2–3 px rings so the stain under them stays visible.
-- Type: system sans-serif stack (`system-ui, "Segoe UI", Roboto, sans-serif`) — no web font download, works offline-ish and on cheap phones. Counters and density: large, bold, tabular numerals.
+- Type: Inter (Google Fonts) with a system sans-serif fallback — changed from system fonts only at final review for a more polished look. Counters and density: large, bold, tabular numerals.
 - Layout: two columns on laptop (image left, panel right), stacked on phones (< 800 px). Buttons ≥ 44 px tall.
 - Tone of copy: short, factual, lab-like ("Capture another field — 72 WBC to go"). No emoji, no gradients, no "AI magic" language. Disclaimer visible on Start and Result.
 

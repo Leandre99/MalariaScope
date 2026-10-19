@@ -87,6 +87,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
 ## Final Review
 
 - [x] Language switch (English / French) in the top bar, all screens including report and accuracy page — learner request; verified in the browser in both languages, live switch mid-count, phone width.
+- [x] Visual redesign (learner: "le design est archi nul, fais plus professionnel") — hero with a real analysed field, feature cards, progress ring, icon buttons, dark density card, metric bars, Inter font; checked desktop and 375 px in EN/FR with no horizontal scroll.
 - [x] Final review complete — feedback resolved and learner confirms ready to ship ("I tested the site, it's good for me")
 
 ## Code Tour and App Map
@@ -109,3 +110,4 @@ Activity mode: Recap with static reference route (app map checked in the browser
 - Tuning, evaluation and sample files now use app-like images (1600 px + JPEG quality 95), and the page sends already-small photos untouched — the browser test showed JPEG re-compression erasing ~30% of the tiny parasite dots, so numbers measured on pristine images would not match what the app sees.
 - `vercel.json` switched to explicit `builds` + `routes` (Python builder for `app.py`, static builder for `public/`) — the first deploy failed on the `functions` key and zero-config detection served nothing (404 everywhere). Live site https://malariascope-two.vercel.app verified: same analysis output as local, full sample slide reaches 32,995 parasites/µL as locally.
 - PRD/spec updated: French interface moved from "later" into the build with an EN/FR switch (`public/i18n.js`), at the learner's request during final review.
+- Look and feel upgraded at final review: Inter web font (system fallback), hero picture generated from real detections (`tools/make_hero.py`), WBC progress ring instead of a bar — learner asked for a more professional design.

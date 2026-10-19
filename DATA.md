@@ -16,7 +16,7 @@ Please cite:
 We did not find an explicit licence on NLM's dataset pages. The images are de-identified and publicly released by NLM for research. To stay respectful of that release, this repository:
 
 - does **not** redistribute the dataset; `tools/fetch_dataset.py` downloads what you need from NLM directly into `data/` (git-ignored);
-- includes only a **small derived sample**: one patient's fields resized to 1600 px (`public/samples/`), a few evaluation illustrations (`public/evaluation/`) and one test fixture (`tests/fixtures/field.jpg`), each credited here;
+- includes only a **small derived sample**: one patient's fields resized to 1600 px (`public/samples/`), a few evaluation illustrations (`public/evaluation/`), the start-screen picture (`public/img/hero.jpg`, a sample field with MalariaScope's own detections, made by `tools/make_hero.py`) and one test fixture (`tests/fixtures/field.jpg`), each credited here;
 - credits NLM and the authors above.
 
 If you are the data owner and want these sample images removed, please open an issue.

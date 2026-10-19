@@ -7,6 +7,15 @@
 
   var STRINGS = {
     en: {
+      "hero.eyebrow": "WHO thick-film method · OpenCV",
+      "feat.1.title": "Follows the WHO count",
+      "feat.1.text": "Counts parasites against 200 white blood cells, extends to 500 when parasites are few, and computes parasites per µL for you.",
+      "feat.2.title": "The technician decides",
+      "feat.2.text": "Every mark can be removed or added with a tap, blurry photos are flagged, and the report stays preliminary until you review it.",
+      "feat.3.title": "Honest about accuracy",
+      "feat.3.text": "Tested on patients it never saw during tuning, against an expert — with the failures shown, not hidden.",
+      "eval.eyebrow": "Held-out evaluation",
+      "footer.text": "Open-source counting aid. Data: U.S. National Library of Medicine.",
       "lang.switch": "Français",
       "lang.switchAria": "Passer en français",
       "nav.home": "MalariaScope home",
@@ -123,6 +132,15 @@
       "eval.source": "Data: {dataset}. {citation}. Matching radius: {rw} px (WBC) and {rp} px (parasites) on {size} px images.",
     },
     fr: {
+      "hero.eyebrow": "Méthode OMS sur goutte épaisse · OpenCV",
+      "feat.1.title": "Suit le comptage de l'OMS",
+      "feat.1.text": "Compte les parasites rapportés à 200 globules blancs, étend à 500 quand ils sont rares, et calcule pour vous les parasites par µL.",
+      "feat.2.title": "Le technicien décide",
+      "feat.2.text": "Chaque marque s'ajoute ou se retire d'un geste, les photos floues sont signalées, et le rapport reste provisoire tant que vous ne l'avez pas vérifié.",
+      "feat.3.title": "Honnête sur la précision",
+      "feat.3.text": "Testé contre un expert sur des patients jamais vus pendant le réglage — avec les échecs montrés, pas cachés.",
+      "eval.eyebrow": "Évaluation sur patients non vus",
+      "footer.text": "Aide au comptage open source. Données : U.S. National Library of Medicine.",
       "lang.switch": "English",
       "lang.switchAria": "Switch to English",
       "nav.home": "Accueil MalariaScope",

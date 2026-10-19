@@ -5,35 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MalariaScope — thick-smear counting aid</title>
   <meta name="description" content="Counts malaria parasites against white blood cells on thick blood smear photos, field by field, following the WHO method.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230F766E'/%3E%3Ccircle cx='12' cy='13' r='4' fill='%23fff'/%3E%3Ccircle cx='21' cy='19' r='2.5' fill='%23fff'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0B1B33">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230D9488'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Ccircle cx='13' cy='14' r='2.6' fill='%23fff'/%3E%3Ccircle cx='19.5' cy='18.5' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="currentColor"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="13" cy="14" r="2.6" fill="#fff"/><circle cx="19.5" cy="18.5" r="1.6" fill="#fff"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m0 0-5 5m5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16M7 16v-5m5 5V7m5 9v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12h17M12 3.5c2.5 2.6 2.5 14.4 0 17M12 3.5c-2.5 2.6-2.5 14.4 0 17" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-protocol" viewBox="0 0 24 24"><path d="M9 4h6m-7 2h8a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm1 7 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4Zm-7 18a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6l-7-3Zm-3 9 2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2M7 14h10v6H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5m5 5-5-5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.8 19.5h18.4L12 4Zm0 6v4.5m0 2.5v.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v5m0-8v.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </svg>
+
   <header class="topbar">
-    <button class="brand" id="brand" type="button" data-i18n-aria="nav.home" aria-label="MalariaScope home">
-      <span class="brand-mark" aria-hidden="true"></span>MalariaScope
-    </button>
-    <span class="topbar-ref" id="topbar-ref"></span>
-    <button class="link" id="nav-accuracy" type="button" data-i18n="nav.accuracy">How accurate is it?</button>
-    <button class="lang" id="lang-btn" type="button" data-i18n="lang.switch" data-i18n-aria="lang.switchAria">Français</button>
+    <div class="topbar-inner">
+      <button class="brand" id="brand" type="button" data-i18n-aria="nav.home" aria-label="MalariaScope home">
+        <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"/></svg>
+        <span>Malaria<b>Scope</b></span>
+      </button>
+      <span class="topbar-ref" id="topbar-ref"></span>
+      <nav class="topnav">
+        <button class="navlink" id="nav-accuracy" type="button"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg><span data-i18n="nav.accuracy">How accurate is it?</span></button>
+        <button class="lang" id="lang-btn" type="button" data-i18n-aria="lang.switchAria"><svg class="ico" aria-hidden="true"><use href="#i-globe"/></svg><span data-i18n="lang.switch">Français</span></button>
+      </nav>
+    </div>
   </header>
 
   <main>
     <!-- Start screen -->
     <section class="screen" id="screen-start" data-screen="start">
-      <div class="start-card">
-        <h1 data-i18n="start.title">Count malaria parasites, field by field.</h1>
-        <p class="lead" data-i18n="start.lead"></p>
-        <form id="start-form" class="start-form" autocomplete="off">
-          <label for="slide-ref" data-i18n="start.refLabel">Slide reference</label>
-          <input id="slide-ref" name="slide-ref" data-i18n-placeholder="start.refPlaceholder" maxlength="40" required>
-          <p class="hint" data-i18n="start.refHint"></p>
-          <button class="btn primary" id="start-btn" type="submit" disabled data-i18n="start.button">Start counting</button>
-        </form>
-        <div class="or"><span data-i18n="start.or">or</span></div>
-        <button class="btn secondary" id="sample-btn" type="button" data-i18n="start.sample">Try a sample slide</button>
-        <p class="hint" data-i18n="start.sampleHint"></p>
-        <p class="disclaimer" data-i18n="disclaimer"></p>
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="pulse" aria-hidden="true"></span><span data-i18n="hero.eyebrow">WHO thick-film method · OpenCV</span></span>
+          <h1 data-i18n="start.title">Count malaria parasites, field by field.</h1>
+          <p class="lead" data-i18n="start.lead"></p>
+
+          <div class="start-card">
+            <form id="start-form" class="start-form" autocomplete="off">
+              <label for="slide-ref" data-i18n="start.refLabel">Slide reference</label>
+              <div class="input-row">
+                <input id="slide-ref" name="slide-ref" data-i18n-placeholder="start.refPlaceholder" maxlength="40" required>
+                <button class="btn primary" id="start-btn" type="submit" disabled><span data-i18n="start.button">Start counting</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              </div>
+              <p class="hint" data-i18n="start.refHint"></p>
+            </form>
+            <div class="or"><span data-i18n="start.or">or</span></div>
+            <button class="btn sample" id="sample-btn" type="button">
+              <span class="sample-icon" aria-hidden="true"><svg class="ico"><use href="#i-play"/></svg></span>
+              <span class="sample-text"><b data-i18n="start.sample">Try a sample slide</b><small data-i18n="start.sampleHint"></small></span>
+            </button>
+          </div>
+          <p class="disclaimer"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span data-i18n="disclaimer"></span></p>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="scope">
+            <img src="img/hero.jpg" alt="" width="960" height="960">
+          </div>
+          <div class="chip chip-a">
+            <span class="chip-label" data-i18n="panel.wbc">White blood cells</span>
+            <span class="chip-value">128 <small>/ 200</small></span>
+            <span class="chip-bar"><i style="width:64%"></i></span>
+          </div>
+          <div class="chip chip-b">
+            <span class="chip-label" data-i18n="report.density">Parasite density</span>
+            <span class="chip-value"><span id="hero-density">32,995</span> <small>/µL</small></span>
+          </div>
+          <div class="chip chip-c">
+            <span><i class="dot wbc"></i><span data-i18n="legend.wbc">White blood cell</span></span>
+            <span><i class="dot par"></i><span data-i18n="legend.par">Parasite</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="features">
+        <article class="feature">
+          <span class="feature-icon"><svg class="ico"><use href="#i-protocol"/></svg></span>
+          <h3 data-i18n="feat.1.title">Follows the WHO count</h3>
+          <p data-i18n="feat.1.text"></p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="ico"><use href="#i-hand"/></svg></span>
+          <h3 data-i18n="feat.2.title">The technician decides</h3>
+          <p data-i18n="feat.2.text"></p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="ico"><use href="#i-shield"/></svg></span>
+          <h3 data-i18n="feat.3.title">Honest about accuracy</h3>
+          <p data-i18n="feat.3.text"></p>
+        </article>
       </div>
     </section>
 
@@ -41,82 +116,94 @@
     <section class="screen" id="screen-counting" data-screen="counting" hidden>
       <div class="workspace">
         <div class="stage">
+          <div class="stage-head">
+            <div class="legend" data-i18n-aria="legend.aria">
+              <span><i class="dot wbc"></i><span data-i18n="legend.wbc">White blood cell</span></span>
+              <span><i class="dot par"></i><span data-i18n="legend.par">Parasite</span></span>
+            </div>
+            <span class="badge" id="quality-badge" hidden></span>
+          </div>
           <div class="dropzone" id="dropzone">
             <canvas id="field-canvas" hidden></canvas>
             <div class="drop-empty" id="drop-empty">
+              <span class="drop-icon" aria-hidden="true"><svg class="ico"><use href="#i-upload"/></svg></span>
               <p class="drop-title" id="drop-title"></p>
               <p class="hint" data-i18n="count.dropHint"></p>
-              <button class="btn primary" id="pick-btn" type="button" data-i18n="count.choose">Choose photo</button>
-              <button class="btn primary" id="next-sample-btn" type="button" hidden data-i18n="count.nextSample">Next sample field</button>
+              <button class="btn primary" id="pick-btn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-upload"/></svg><span data-i18n="count.choose">Choose photo</span></button>
+              <button class="btn primary" id="next-sample-btn" type="button" hidden><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg><span data-i18n="count.nextSample">Next sample field</span></button>
             </div>
             <div class="busy" id="busy" hidden><span class="spinner" aria-hidden="true"></span><span data-i18n="count.analysing">Analysing…</span></div>
           </div>
           <input id="file-input" type="file" accept="image/*" hidden>
-          <div class="legend" data-i18n-aria="legend.aria">
-            <span><i class="dot wbc"></i><span data-i18n="legend.wbc">White blood cell</span></span>
-            <span><i class="dot par"></i><span data-i18n="legend.par">Parasite</span></span>
-          </div>
           <p class="error" id="field-error" role="alert" hidden></p>
+          <div class="thumbs" id="thumbs" data-i18n-aria="thumbs.aria"></div>
         </div>
 
         <aside class="panel">
-          <div class="progress-block">
-            <div class="progress-head">
+          <div class="ring-block">
+            <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="ring-track" cx="60" cy="60" r="52"/>
+              <circle class="ring-fill" id="wbc-ring" cx="60" cy="60" r="52"/>
+            </svg>
+            <div class="ring-center">
+              <span class="ring-value" id="wbc-progress">0 / 200</span>
               <span class="label" data-i18n="panel.wbc">White blood cells</span>
-              <span class="big" id="wbc-progress">0 / 200</span>
             </div>
-            <div class="bar"><div class="bar-fill" id="wbc-bar"></div></div>
           </div>
           <div class="stats">
-            <div><span class="label" data-i18n="panel.parasites">Parasites</span><span class="big" id="par-total">0</span></div>
-            <div><span class="label" data-i18n="panel.fields">Fields</span><span class="big" id="fields-total">0</span></div>
+            <div class="stat par"><span class="label" data-i18n="panel.parasites">Parasites</span><span class="big" id="par-total">0</span></div>
+            <div class="stat"><span class="label" data-i18n="panel.fields">Fields</span><span class="big" id="fields-total">0</span></div>
           </div>
           <p class="guidance" id="guidance"></p>
 
           <div class="field-box" id="field-box" hidden>
             <div class="field-head">
               <span class="label" data-i18n="panel.thisField">This field</span>
-              <span class="badge" id="quality-badge"></span>
-            </div>
-            <div class="field-counts">
-              <span><i class="dot wbc"></i><b id="field-wbc">0</b> <span data-i18n="panel.wbcUnit">WBC</span></span>
-              <span><i class="dot par"></i><b id="field-par">0</b> <span data-i18n="panel.parUnit">parasites</span></span>
+              <div class="field-counts">
+                <span><i class="dot wbc"></i><b id="field-wbc">0</b> <span data-i18n="panel.wbcUnit">WBC</span></span>
+                <span><i class="dot par"></i><b id="field-par">0</b> <span data-i18n="panel.parUnit">parasites</span></span>
+              </div>
             </div>
             <div class="flag" id="flag" hidden>
-              <p id="flag-text"></p>
-              <div class="row">
-                <button class="btn small" id="retake-btn" type="button" data-i18n="panel.retake">Retake</button>
-                <button class="btn small secondary" id="use-anyway-btn" type="button" data-i18n="panel.useAnyway">Use anyway</button>
+              <svg class="ico" aria-hidden="true"><use href="#i-warn"/></svg>
+              <div>
+                <p id="flag-text"></p>
+                <div class="row">
+                  <button class="btn small" id="retake-btn" type="button" data-i18n="panel.retake">Retake</button>
+                  <button class="btn small secondary" id="use-anyway-btn" type="button" data-i18n="panel.useAnyway">Use anyway</button>
+                </div>
               </div>
             </div>
             <div class="tools" id="tools" role="group" data-i18n-aria="panel.toolsAria">
-              <span class="label" data-i18n="panel.toolsHint">Tap a mark to remove it, or add:</span>
-              <div class="row">
-                <button class="tool" id="tool-par" type="button" aria-pressed="false"><i class="dot par"></i><span data-i18n="panel.addPar">Add parasite</span></button>
-                <button class="tool" id="tool-wbc" type="button" aria-pressed="false"><i class="dot wbc"></i><span data-i18n="panel.addWbc">Add WBC</span></button>
+              <span class="hint" data-i18n="panel.toolsHint">Tap a mark to remove it, or add:</span>
+              <div class="segmented">
+                <button class="tool" id="tool-par" type="button" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><i class="dot par"></i><span data-i18n="panel.addPar">Add parasite</span></button>
+                <button class="tool" id="tool-wbc" type="button" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><i class="dot wbc"></i><span data-i18n="panel.addWbc">Add WBC</span></button>
               </div>
             </div>
-            <div class="row">
-              <button class="btn primary" id="confirm-btn" type="button" data-i18n="panel.confirm">Confirm field</button>
-              <button class="btn ghost" id="discard-btn" type="button" data-i18n="panel.discard">Discard field</button>
+            <div class="actions">
+              <button class="btn primary" id="confirm-btn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="panel.confirm">Confirm field</span></button>
+              <button class="btn ghost" id="discard-btn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg><span data-i18n="panel.discard">Discard field</span></button>
             </div>
           </div>
 
-          <button class="btn primary wide" id="result-btn" type="button" hidden data-i18n="panel.result">See result</button>
+          <button class="btn primary wide cta" id="result-btn" type="button" hidden><span data-i18n="panel.result">See result</span><svg class="ico" aria-hidden="true"><use href="#i-arrow"/></svg></button>
           <button class="btn ghost wide" id="new-slide-btn" type="button" data-i18n="panel.newSlide">New slide</button>
         </aside>
       </div>
-      <div class="thumbs" id="thumbs" data-i18n-aria="thumbs.aria"></div>
     </section>
 
     <!-- Result screen -->
     <section class="screen" id="screen-result" data-screen="result" hidden>
       <article class="report" id="report">
         <header class="report-head">
-          <div>
-            <p class="label" data-i18n="report.kicker">MalariaScope count report</p>
-            <h1 id="r-ref">—</h1>
-            <p class="muted" id="r-date"></p>
+          <div class="report-brand">
+            <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"/></svg>
+            <div>
+              <p class="label" data-i18n="report.kicker">MalariaScope count report</p>
+              <h1 id="r-ref">—</h1>
+              <p class="muted" id="r-date"></p>
+            </div>
           </div>
           <span class="status preliminary" id="r-status"></span>
         </header>
@@ -126,21 +213,23 @@
           <p class="formula" id="r-formula"></p>
         </div>
         <div class="stats three">
-          <div><span class="label" data-i18n="report.fields">Fields examined</span><span class="big" id="r-fields">0</span></div>
-          <div><span class="label" data-i18n="report.wbc">WBC counted</span><span class="big" id="r-wbc">0</span></div>
-          <div><span class="label" data-i18n="report.par">Parasites counted</span><span class="big" id="r-par">0</span></div>
+          <div class="stat"><span class="label" data-i18n="report.fields">Fields examined</span><span class="big" id="r-fields">0</span></div>
+          <div class="stat"><span class="label" data-i18n="report.wbc">WBC counted</span><span class="big" id="r-wbc">0</span></div>
+          <div class="stat par"><span class="label" data-i18n="report.par">Parasites counted</span><span class="big" id="r-par">0</span></div>
         </div>
-        <table class="table" id="r-table">
-          <thead><tr><th data-i18n="report.thField">Field</th><th data-i18n="report.thWbc">WBC</th><th data-i18n="report.thPar">Parasites</th><th data-i18n="report.thNote">Note</th></tr></thead>
-          <tbody></tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="table" id="r-table">
+            <thead><tr><th data-i18n="report.thField">Field</th><th data-i18n="report.thWbc">WBC</th><th data-i18n="report.thPar">Parasites</th><th data-i18n="report.thNote">Note</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
         <label class="check no-print">
           <input type="checkbox" id="review-check"> <span data-i18n="report.check">I have reviewed these counts</span>
         </label>
-        <p class="disclaimer" data-i18n="report.method"></p>
+        <p class="disclaimer"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span data-i18n="report.method"></span></p>
         <div class="row no-print">
-          <button class="btn primary" id="print-btn" type="button" data-i18n="report.print">Print report</button>
-          <button class="btn ghost" id="back-btn" type="button" data-i18n="report.back">Back to counting</button>
+          <button class="btn primary" id="print-btn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-print"/></svg><span data-i18n="report.print">Print report</span></button>
+          <button class="btn ghost" id="back-btn" type="button"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg><span data-i18n="report.back">Back to counting</span></button>
           <button class="btn ghost" id="result-new-btn" type="button" data-i18n="panel.newSlide">New slide</button>
         </div>
       </article>
@@ -149,12 +238,18 @@
     <!-- Evaluation screen -->
     <section class="screen" id="screen-evaluation" data-screen="evaluation" hidden>
       <div class="eval" id="eval">
+        <span class="eyebrow"><span data-i18n="eval.eyebrow">Held-out evaluation</span></span>
         <h1 data-i18n="eval.title">How accurate is it?</h1>
         <p class="lead" id="eval-intro"></p>
         <div id="eval-body"></div>
       </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <span>MalariaScope · <span data-i18n="footer.text">Open-source counting aid. Data: U.S. National Library of Medicine.</span></span>
+    <a href="https://github.com/Leandre99/MalariaScope" target="_blank" rel="noopener">GitHub</a>
+  </footer>
 
   <dialog id="confirm-dialog">
     <form method="dialog">
