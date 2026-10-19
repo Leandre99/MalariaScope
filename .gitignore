@@ -19,3 +19,6 @@ __pycache__/
 
 # Vercel
 .vercel
+
+# Local dev test images
+public/_dev*

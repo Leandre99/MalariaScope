@@ -19,7 +19,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
   Learner check: Open the overlay PNG and say whether the blue and red circles land on white cells and parasites.
   Commit: `Fetch NLM thick-smear sample and parse expert annotations`
 
-- [ ] **2. Upload a field photo and see blue and red circles**
+- [x] **2. Upload a field photo and see blue and red circles**
   Becomes usable: Run one command, open the page, start a slide, upload a field: the photo appears with detected WBCs and parasites circled and this field's counts shown.
   Why now: The first end-to-end path (page → API → OpenCV → page) that everything else builds on; the detection quality can be improved later without changing this path.
   PRD ref: `prd.md > The Core Journey` (steps 1–6), `prd.md > Starting a slide`, `prd.md > Field analysis`
