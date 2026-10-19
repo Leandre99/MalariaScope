@@ -22,3 +22,6 @@ __pycache__/
 
 # Local dev test images
 public/_dev*
+
+# Demo video renders
+/video/
