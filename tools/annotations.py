@@ -23,11 +23,17 @@ sys.path.insert(0, str(ROOT))
 from malariascope.analysis import WORK_SIZE, to_work_size  # noqa: E402
 
 
+UPLOAD_JPEG_QUALITY = 95  # what the page sends after resizing (public/app.js)
+
+
 def load_image(path):
-    """Load at analysis size, ignoring the EXIF rotation: the expert coordinates
-    refer to the raw (landscape) pixel grid, not the rotated view."""
+    """Load the field the way the app receives it: resized to analysis size and
+    JPEG-compressed like the page's upload (tiny parasite dots are sensitive to it).
+    EXIF rotation is ignored: expert coordinates use the raw (landscape) pixel grid."""
     img = cv2.imread(str(path), cv2.IMREAD_COLOR | cv2.IMREAD_IGNORE_ORIENTATION)
-    return to_work_size(img)
+    img = to_work_size(img)
+    ok, buf = cv2.imencode(".jpg", img, [cv2.IMWRITE_JPEG_QUALITY, UPLOAD_JPEG_QUALITY])
+    return cv2.imdecode(buf, cv2.IMREAD_COLOR)
 
 
 @dataclass

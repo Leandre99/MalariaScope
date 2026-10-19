@@ -1,0 +1,31 @@
+{
+ "reference": "SAMPLE-TF63_CS25",
+ "source": "NLM Thick Smears 150, patient TF63_CS25 (held out from tuning)",
+ "expert": {
+  "fields": 20,
+  "wbc": 221,
+  "parasites": 839
+ },
+ "fields": [
+  "field-01.jpg",
+  "field-02.jpg",
+  "field-03.jpg",
+  "field-04.jpg",
+  "field-05.jpg",
+  "field-06.jpg",
+  "field-07.jpg",
+  "field-08.jpg",
+  "field-09.jpg",
+  "field-10.jpg",
+  "field-11.jpg",
+  "field-12.jpg",
+  "field-13.jpg",
+  "field-14.jpg",
+  "field-15.jpg",
+  "field-16.jpg",
+  "field-17.jpg",
+  "field-18.jpg",
+  "field-19.jpg",
+  "field-20.jpg"
+ ]
+}

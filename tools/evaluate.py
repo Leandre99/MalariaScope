@@ -73,8 +73,10 @@ def main():
         })
         print(f"{patient}: expert {density(e_par, e_wbc)}/µL vs ours {density(o_par, o_wbc)}/µL")
 
-    # Failure examples: the fields where our parasite count is furthest from the expert's.
-    worst = sorted(rows, key=lambda r: -abs(r["ours"]["parasites"] - r["expert"]["parasites"]))[:N_FAILURES]
+    # Failure examples: the worst under-counts and the worst over-count, so both
+    # kinds of mistake (missed parasites, debris marked as parasites) are shown.
+    by_error = sorted(rows, key=lambda r: r["ours"]["parasites"] - r["expert"]["parasites"])
+    worst = by_error[:N_FAILURES - 1] + by_error[-1:]
     failures = []
     for i, r in enumerate(worst, 1):
         img, res, truth = cache[r["id"]]

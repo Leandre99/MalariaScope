@@ -69,7 +69,7 @@ Build mode: fast (learner: "travaille en autodidacte, termine le projet")
   Learner check: Open "How accurate is it?" and say whether you'd trust the numbers and understand the failure examples.
   Commit: `Tune detector and add accuracy evaluation`
 
-- [ ] **7. Result, report and sample slide**
+- [x] **7. Result, report and sample slide**
   Becomes usable: See result with density and formula, per-field table, review checkbox (Preliminary → Reviewed by technician), print to PDF; "Try a sample slide" runs a held-out patient's real fields through the analyser.
   Why now: Closes the core journey and gives judges a no-microscope way in; depends on protocol (slice 4) and a chosen held-out patient (slice 6).
   PRD ref: `prd.md > Result and report`, `prd.md > Starting a slide`, `prd.md > The Core Journey` (steps 8–11)
@@ -104,4 +104,5 @@ Activity mode:
 - Dataset layout differs from the spec's guess — images are `<patient>/<name>.jpg` and annotations `GT_updated/<patient>/<name>.txt` (parasites = circles, WBCs = single points); the photos carry an EXIF rotation while expert coordinates use the raw landscape pixel grid, so tools load images ignoring EXIF orientation. Remote-zip range reads worked, no full download needed. 10 patients fetched; 9 have ≥ 200 WBC across their fields, so sample mode can reach the WHO threshold.
 - API moved from `api/index.py` to root `app.py` (+ `vercel.json`, `.python-version`) — Vercel's FastAPI support detects `app.py`/`index.py` entrypoints and treats an `api/` folder as legacy per-file functions; it also asks not to mount `public/` in the app, so the static mount now runs only outside Vercel.
 - Slice 4 built before slice 3 was verified — slice 3's config is committed and pushed, but its live check waits for the learner to create the Vercel project; building continued rather than idling.
-- Engine gained two parasite rules found while tuning — merging dots closer than 7 px (ring forms split in two were double-counted) and a darkness limit (pale diffuse purple spots were false alarms). Held-out result: WBC 98% precision / 89% recall; parasites 60% / 59%, total count within 1%, but a low-parasitaemia patient is overestimated ~5×; shown openly on the accuracy screen.
+- Engine gained two parasite rules found while tuning — merging dots closer than 7 px (ring forms split in two were double-counted) and a darkness limit (pale diffuse purple spots were false alarms). Held-out result: WBC 98% precision / 88% recall; parasites 63% / 53%; patient densities +0.4%, +4%, −27%, but a low-parasitaemia patient is overestimated ~4.7×; shown openly on the accuracy screen.
+- Tuning, evaluation and sample files now use app-like images (1600 px + JPEG quality 95), and the page sends already-small photos untouched — the browser test showed JPEG re-compression erasing ~30% of the tiny parasite dots, so numbers measured on pristine images would not match what the app sees.

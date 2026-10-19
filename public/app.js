@@ -71,6 +71,9 @@
   }
 
   // Shrink to <= WORK_SIZE on the long side (keeps uploads small for Vercel's 4.5 MB limit).
+  // Parasites are only a few pixels wide and JPEG re-compression erases some of them,
+  // so a photo that is already small enough is sent untouched, and resizing uses high quality.
+  var MAX_UPLOAD_BYTES = 3500000;
   function loadAndResize(blob) {
     return createImageBitmap(blob).then(function (bmp) {
       var scale = Math.min(1, WORK_SIZE / Math.max(bmp.width, bmp.height));
@@ -78,8 +81,11 @@
       c.width = Math.round(bmp.width * scale);
       c.height = Math.round(bmp.height * scale);
       c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+      if (scale === 1 && blob.size <= MAX_UPLOAD_BYTES && /^image\/(jpeg|png)$/.test(blob.type)) {
+        return { canvas: c, blob: blob };
+      }
       return new Promise(function (resolve) {
-        c.toBlob(function (out) { resolve({ canvas: c, blob: out }); }, "image/jpeg", 0.9);
+        c.toBlob(function (out) { resolve({ canvas: c, blob: out }); }, "image/jpeg", 0.95);
       });
     });
   }
