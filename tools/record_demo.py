@@ -1,12 +1,14 @@
-"""Record a silent, narration-ready screen capture of the MalariaScope demo.
+"""Record the MalariaScope demo screen capture, with the learner's narration if present.
 
 Drives the live site with Playwright: start screen, sample slide field by field
 (with one mark correction), result report, accuracy page. A visible cursor is
-drawn so viewers can follow clicks. The learner adds their own voice-over.
+drawn so viewers can follow clicks. If video/voice/ holds the learner's narration
+(tools/make_voice.ps1), each part is timed to its voice and the audio is mixed in.
 
 Usage:
     python tools/record_demo.py [URL]      -> video/malariascope-demo.mp4
 """
+import json
 import shutil
 import subprocess
 import sys
@@ -20,6 +22,8 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "video"
 URL = sys.argv[1] if len(sys.argv) > 1 else "https://malariascope-two.vercel.app/"
 SIZE = {"width": 1280, "height": 720}
+TRIM_START = 0.8   # seconds cut from the start of the raw capture (blank page load)
+SPEEDUP = 4        # repetitive fields are shown four times faster
 
 # A visible cursor with a click ripple (headless recordings have no pointer).
 CURSOR_JS = """
@@ -93,6 +97,15 @@ def main():
     OUT_DIR.mkdir(exist_ok=True)
     raw_dir = OUT_DIR / "raw"
     shutil.rmtree(raw_dir, ignore_errors=True)
+    # Optional narration (video/voice/*.wav from tools/make_voice.ps1): each part of
+    # the capture is held at least as long as its voice-over section.
+    voice_dir = OUT_DIR / "voice"
+    durations = {}
+    if (voice_dir / "durations.json").exists():
+        durations = json.loads((voice_dir / "durations.json").read_text(encoding="utf-8-sig"))
+    GAP = 1.4  # seconds of breathing room after each spoken section
+    need = {k: durations.get(k, 0) + GAP for k in ("start", "demo", "result", "accuracy")}
+
     with sync_playwright() as p:
         browser = p.chromium.launch()
         ctx = browser.new_context(viewport=SIZE, record_video_dir=str(raw_dir), record_video_size=SIZE,
@@ -100,17 +113,27 @@ def main():
         ctx.add_init_script(CURSOR_JS)
         page = ctx.new_page()
         t0 = time.monotonic()  # the recording starts with the page
+        now = lambda: time.monotonic() - t0  # noqa: E731
         page.goto(URL, wait_until="networkidle")
         page.mouse.move(640, 360)
+        marks = {"start": TRIM_START}
+
+        def hold_until(section, extra_cut=0.0):
+            """Wait until this section lasts `need[section]` seconds in the final video."""
+            shown = now() - marks[section] - extra_cut
+            if shown < need[section]:
+                pause(need[section] - shown)
 
         # 1. Start screen: the problem and the promise.
-        pause(3.5)
-        page.mouse.move(980, 330, steps=40)
         pause(2.5)
+        page.mouse.move(980, 330, steps=40)
+        pause(max(1.5, need["start"] - 10.0))
         smooth_scroll(page, 700, 3.0)
         smooth_scroll(page, 0, 1.6)
+        hold_until("start")
 
         # 2. Sample slide, field by field.
+        marks["demo"] = now()
         glide_click(page, page.locator("#sample-btn"))
         pause(1.2)
         first = True
@@ -118,8 +141,8 @@ def main():
         fast_start = None
         while page.locator("#result-btn").is_hidden():
             n += 1
-            if n == 4:
-                fast_start = time.monotonic() - t0  # repetitive fields: sped up in the edit
+            if n == 2:
+                fast_start = now()  # repetitive fields: sped up in the edit
             glide_click(page, page.locator("#next-sample-btn"), settle=0.2)
             wait_field(page)
             if first:
@@ -137,26 +160,33 @@ def main():
                 pause(0.8)
                 first = False
             else:
-                pause(2.0 if n < 4 else 1.0)
+                pause(1.0)
             glide_click(page, page.locator("#confirm-btn"), settle=0.25)
             pause(0.6)
-        fast_end = time.monotonic() - t0
+        fast_end = now()
         pause(2.5)
+        hold_until("demo", extra_cut=(fast_end - fast_start) * (1 - 1 / SPEEDUP))
 
         # 3. Result and report.
+        marks["result"] = now()
         glide_click(page, page.locator("#result-btn"))
         pause(3.0)
-        smooth_scroll(page, 480, 2.0)
+        page.evaluate("document.getElementById('review-check').scrollIntoView({behavior: 'smooth', block: 'center'})")
+        pause(2.0)
         glide_click(page, page.locator("#review-check"))
         pause(2.0)
         smooth_scroll(page, 0, 2.0)
+        hold_until("result")
 
-        # 4. Honest accuracy page.
+        # 4. Honest accuracy page, scrolled evenly over the spoken section.
+        marks["accuracy"] = now()
         glide_click(page, page.locator("#nav-accuracy"))
-        pause(3.0)
-        for y in (420, 840, 1300, 1800):
-            smooth_scroll(page, y, 2.6)
-        smooth_scroll(page, 0, 1.5)
+        pause(2.5)
+        stops = (420, 840, 1300, 1800)
+        step = max(2.4, (need["accuracy"] - 5.0) / len(stops))
+        for y in stops:
+            smooth_scroll(page, y, step)
+        hold_until("accuracy")
 
         # 5. Back to the start screen.
         page.goto(URL, wait_until="networkidle")
@@ -165,21 +195,44 @@ def main():
         ctx.close()
         browser.close()
 
+    a, b = fast_start, fast_end
+
+    def final_time(t):
+        """Raw capture time -> time in the edited video (trimmed start, sped-up fields)."""
+        if t < a:
+            return t - TRIM_START
+        if t < b:
+            return a - TRIM_START + (t - a) / SPEEDUP
+        return a - TRIM_START + (b - a) / SPEEDUP + (t - b)
+
     out = OUT_DIR / "malariascope-demo.mp4"
     ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-    a, b = fast_start, fast_end
     label = ("drawtext=fontfile='C\\:/Windows/Fonts/segoeuib.ttf':text='Fast-forward x4':fontsize=26:"
              "fontcolor=white:box=1:boxcolor=0x0B1B33CC:boxborderw=14:x=w-tw-36:y=h-th-36")
     graph = (
-        f"[0:v]trim=start=0.8:end={a},setpts=PTS-STARTPTS[v1];"
-        f"[0:v]trim=start={a}:end={b},setpts=(PTS-STARTPTS)/4,{label}[v2];"
+        f"[0:v]trim=start={TRIM_START}:end={a},setpts=PTS-STARTPTS[v1];"
+        f"[0:v]trim=start={a}:end={b},setpts=(PTS-STARTPTS)/{SPEEDUP},{label}[v2];"
         f"[0:v]trim=start={b},setpts=PTS-STARTPTS[v3];"
         "[v1][v2][v3]concat=n=3:v=1:a=0,fps=30[v]"
     )
-    subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-i", str(video), "-filter_complex", graph, "-map", "[v]",
-                    "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", str(out)],
-                   check=True)
-    print(f"saved {out} (fields sped up x4 between {a:.1f}s and {b:.1f}s of the raw capture)")
+    cmd = [ffmpeg, "-y", "-loglevel", "error", "-i", str(video)]
+    sections = [k for k in ("start", "demo", "result", "accuracy") if (voice_dir / f"{k}.wav").exists()]
+    if sections:
+        for k in sections:
+            cmd += ["-i", str(voice_dir / f"{k}.wav")]
+        delays = []
+        for i, k in enumerate(sections, 1):
+            ms = int(max(0.0, final_time(marks[k]) + 0.4) * 1000)
+            graph += f";[{i}:a]adelay={ms}|{ms}[a{i}]"
+            delays.append(f"[a{i}]")
+            print(f"  voice '{k}' starts at {ms / 1000:.1f}s")
+        graph += f";{''.join(delays)}amix=inputs={len(sections)}:normalize=0[a]"
+        cmd += ["-filter_complex", graph, "-map", "[v]", "-map", "[a]", "-c:a", "aac", "-b:a", "160k"]
+    else:
+        cmd += ["-filter_complex", graph, "-map", "[v]"]
+    cmd += ["-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", str(out)]
+    subprocess.run(cmd, check=True)
+    print(f"saved {out} (fields sped up x{SPEEDUP} between {a:.1f}s and {b:.1f}s of the raw capture)")
 
 
 if __name__ == "__main__":
